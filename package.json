@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "prettier": "prettier --write '**/*.{rb,rake}'",
+    "start": "mdx-deck slides.mdx"
+  },
+  "devDependencies": {
+    "mdx-deck": "^2.0.6"
+  }
+}

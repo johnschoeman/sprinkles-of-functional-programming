@@ -1,0 +1,261 @@
+export { default as theme }  from './theme'
+
+import { Appear, Head, Notes } from 'mdx-deck'
+import { Split, Horizontal } from 'mdx-deck/layouts'
+
+<Head>
+  <title>Sprinkles of FP</title>
+</Head>
+
+<h1>
+  Sprinkles of Functional Programming
+</h1>
+
+---
+
+<div>Hello I'm John</div>
+<Horizontal>
+  <div>I work at</div>
+  <div><img src="./images/tb_horizontal_default.png" /></div>
+</Horizontal>
+
+---
+
+<a>
+  @john_at_aol_dot_com_at_gmail_dot_com
+</a>
+
+---
+
+<h2>
+  Take Aways / Key Thesis
+</h2>
+
+---
+
+<div>1.</div>
+<h3>Ruby</h3>
+<div>is a general purpose language.</div>
+
+<Notes> it is excellent with both object oriented programming and functional progamming
+</Notes>
+
+<Notes> the developer gets to choose</Notes>
+
+---
+
+<Horizontal>
+
+```
+Object.new
+```
+
+```
+l = -> x { x + 1 }
+
+```
+</Horizontal>
+
+---
+
+<div>2.</div>
+<h3>Automation tasks</h3>
+<div>are not all the same</div>
+
+<Notes>
+some times we want to model some real world interactions, create things that
+represent a useful thing.
+
+sometime we want take some information from point a to point b, sometimes we
+want to ask some quantitative question of some data.
+
+Some automation tasks lend themselves to an object oriented solution, some to a
+   functional solution.
+</Notes>
+
+---
+
+<Horizontal>
+<h4>Behaviour</h4>
+<h4>Objects</h4>
+</Horizontal>
+
+<br />
+
+<div>
+<h4>Data</h4> lends itself to <h4>Functions</h4>
+</div>
+
+---
+
+<div>
+  Given 1 and 2 we can conclude:
+</div>
+
+---
+
+<div>3.</div>
+
+<h3>We should Choose</h3>
+<div>our progamming style based off of our task</div>
+
+<Notes>
+  - Sometimes it makes sense to program ruby in an object oriented way
+  - other times it makes sense to program ruby in a functional way.
+  - It depends on the task.
+  - (you may now leave)
+</Notes>
+
+---
+
+<ul>
+<Appear>
+<li>Understand task first then choose style </li>
+<li>What do you expect will change? Data or Behaviour? </li>
+<li>if data, consider a functional style </li>
+<li>if behaviour, consider object oriented style </li>
+</Appear>
+</ul>
+
+---
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Add new method</th>
+      <th>Add new data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OO</td>
+      <td>Existing code unchanged</td>
+      <td>Existing code changed</td>
+    </tr>
+    <tr>
+      <td>FP</td>
+      <td>Existing code changed</td>
+      <td>Existing code unchanged</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+<h3>Ask</h3>
+<small>What do you expect will change</small>
+
+<Notes>
+  A good way to decide which task goes to which is by asking what is more
+  likely to change in the future of your program, the behaviour, or the data?
+  thus given a task you're solving with programming, if you expect behaviour to
+  change, prefer object oriented. if you expect data to change, prefer functional programming
+</Notes>
+
+---
+
+<h2>Example</h2>
+
+---
+
+<p>Imagine a Rails App</p>
+
+<Notes>
+explain the app: a generic rails product monolith, there are users, which have
+things, and can do things, say a b to b of medium to largish size.
+
+explain the problem: users would like to migrate to the app, they need to upload
+their spreadsheets to the app, we need to ingest those spreadsheets, save the
+rows for the users as active record objects. They'd like to upload the
+spreadsheets to an ftp server and we'll poll it every day to import the files.
+
+Lets call this product...
+</Notes>
+
+---
+
+<h2>GRA</h2>
+<small>Generic Rails App</small>
+
+---
+
+<h3>Sprint Planning</h3>
+<ul>
+<Appear>
+  <li>Trello card: "Users can upload csvs"</li>
+  <li>Estimated as a 2</li>
+  <li>No description</li>
+</Appear>
+</ul>
+
+---
+
+<h3>Solution</h3>
+
+<Notes>
+1. rake task to poll the data - iterate over the files in the ftp server, kick
+   off background worker
+2. worker: call importer class - iterate over the rows, save to the database
+3. success
+</Notes>
+
+---
+
+<h4>.xlsx + .csv</h4>
+
+<Notes>
+Add dimension: Excel + CSV
+Oh no! new requirements from the sales team. they want csv and excel (and they
+apparently can't just export excel to csv)
+</Notes>
+
+---
+
+Example FP
+
+---
+
+<h3>Recap</h3>
+
+---
+
+<div>
+It's useful to consider the type of task you are trying to accomplish before you
+the programming style
+</div>
+
+---
+
+<div>
+Its' useful to consider the what about the task you expect to change: behaviour,
+or data
+</div>
+
+---
+
+<div>
+  If you expect behaviour to change, perfer object oriented.
+  If you expect data to change, prefer functional
+</div>
+
+---
+
+<div>
+  But don't go overboard, a few sprinkles is probably all you need.
+</div>
+
+<Notes> The majority of what we want to do in our Rails apps is concerned with
+behaviour, so we would expect that most of our applicaiton code will be classes
+and object, thats our models, sevice objects, controllers, but sometimes we have
+supporting work that needs to be done and sometimes those tasks would be better
+served with a functional approach
+</Notes>
+
+---
+
+<div>Don't just do things</div>
+
+---
+
+<h2>Questions</h2>
