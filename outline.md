@@ -72,9 +72,17 @@ what are the process smells: how do you know your process could be improved?
 
 4. We should choose our style based off our task
 
-
 ---
 
-dependency structure
+Dependency structure
 
 - it might me nice to give a few strategies to apply functional styles to your code.
+
+- what are the benefits, you write less code, you have more flexible code, more
+  clear, reduces the maintenance, less places for bugs, easier to test.
+
+
+- tell a story of receive a request for users to upload a CSV
+- potential questions to ask about the work to help decide your approach
+- are other customers likely to want this feature?
+- do we need to support multiple formats?

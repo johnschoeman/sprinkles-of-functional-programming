@@ -114,18 +114,6 @@ Some automation tasks lend themselves to an object oriented solution, some to a
 
 ---
 
-<ol>
-<Appear>
-<li>Understand your task before you choose style</li>
-<li>Ask what do you expect will change?</li>
-<li>Data or Behaviour?</li>
-<li>if Data, consider a functional style</li>
-<li>if Behaviour, consider object oriented style</li>
-</Appear>
-</ol>
-
----
-
 
 `-` | Add new method | Add new Data
 ---|---|---
@@ -139,6 +127,16 @@ Give a few examples of
 
 ---
 
+<Split>
+<h3>Typical cases</h3>
+<Appears>
+<li>Data transformations</li>
+<li>Data aggregates</li>
+</Appears>
+</Split>
+
+---
+
 <h3>Ask</h3>
 <small>What do you expect will change</small>
 
@@ -148,6 +146,18 @@ Give a few examples of
   thus given a task you're solving with programming, if you expect behaviour to
   change, prefer object oriented. if you expect data to change, prefer functional programming
 </Notes>
+
+---
+
+<ol>
+<Appear>
+<li>Understand your task before you choose style</li>
+<li>Ask what do you expect will change?</li>
+<li>Data or Behaviour?</li>
+<li>if Data, consider a functional style</li>
+<li>if Behaviour, consider object oriented style</li>
+</Appear>
+</ol>
 
 ---
 
@@ -171,33 +181,7 @@ Lets call this product...
 
 ---
 
-<h2>GRA</h2>
-<small>Generic Rails App</small>
-
----
-Initial requirements
----
-
----
-Initial implementation
----
-
----
-New requirements
----
-
---
-
-- tell a story of receive a request for users to upload a CSV
-- potential questions to ask about the work to help decide your approach
-- are other customers likely to want this feature?
-- do we need to support multiple formats?
-
----
-
----
-
-<h3>Solution</h3>
+<h3>Inital Requirement</h3>
 
 <Notes>
 1. rake task to poll the data - iterate over the files in the ftp server, kick
@@ -266,6 +250,7 @@ apparently can't just export excel to csv)
 <Appear>
 <li>Less Code</li>
 <li>Much easier to test</li>
+<li>Separation of state from conditionals</li>
 <li>more flexible</li>
 <li>more honest</li>
 </Appear>
@@ -320,12 +305,10 @@ Its' useful to consider the what about the task you expect to change: behaviour,
 or data
 </div>
 
----
-
-<div>
-  If you expect behaviour to change, perfer object oriented.
-  If you expect data to change, prefer functional
-</div>
+<Appears>
+  <li>If you expect behaviour to change, perfer object oriented</li>
+  <li>If you expect data to change, prefer functional</li>
+</Appears>
 
 ---
 
