@@ -13,6 +13,10 @@ import { Split, Horizontal } from 'mdx-deck/layouts'
 
 ---
 
+<span>{ "***" }</span>
+
+---
+
 <div>Hello I'm John</div>
 <Horizontal>
   <div>I work at</div>
@@ -21,6 +25,8 @@ import { Split, Horizontal } from 'mdx-deck/layouts'
 
 ---
 
+Github: /johnschoeman
+Twitter:
 <a>
   @john_at_aol_dot_com_at_gmail_dot_com
 </a>
@@ -108,38 +114,28 @@ Some automation tasks lend themselves to an object oriented solution, some to a
 
 ---
 
-<ul>
+<ol>
 <Appear>
-<li>Understand task first then choose style </li>
-<li>What do you expect will change? Data or Behaviour? </li>
-<li>if data, consider a functional style </li>
-<li>if behaviour, consider object oriented style </li>
+<li>Understand your task before you choose style</li>
+<li>Ask what do you expect will change?</li>
+<li>Data or Behaviour?</li>
+<li>if Data, consider a functional style</li>
+<li>if Behaviour, consider object oriented style</li>
 </Appear>
-</ul>
+</ol>
 
 ---
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>Add new method</th>
-      <th>Add new data</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>OO</td>
-      <td>Existing code unchanged</td>
-      <td>Existing code changed</td>
-    </tr>
-    <tr>
-      <td>FP</td>
-      <td>Existing code changed</td>
-      <td>Existing code unchanged</td>
-    </tr>
-  </tbody>
-</table>
+
+`-` | Add new method | Add new Data
+---|---|---
+OO | Existing code unchanged | Existing code changed
+FP | Existing code changed | Existing code unchanged
+
+
+<Notes>
+Give a few examples of 
+</Notes>
 
 ---
 
@@ -155,7 +151,7 @@ Some automation tasks lend themselves to an object oriented solution, some to a
 
 ---
 
-<h2>Example</h2>
+<h2>Illustration</h2>
 
 ---
 
@@ -179,15 +175,25 @@ Lets call this product...
 <small>Generic Rails App</small>
 
 ---
+Initial requirements
+---
 
-<h3>Sprint Planning</h3>
-<ul>
-<Appear>
-  <li>Trello card: "Users can upload csvs"</li>
-  <li>Estimated as a 2</li>
-  <li>No description</li>
-</Appear>
-</ul>
+---
+Initial implementation
+---
+
+---
+New requirements
+---
+
+--
+
+- tell a story of receive a request for users to upload a CSV
+- potential questions to ask about the work to help decide your approach
+- are other customers likely to want this feature?
+- do we need to support multiple formats?
+
+---
 
 ---
 
@@ -202,21 +208,103 @@ Lets call this product...
 
 ---
 
-<h4>.xlsx + .csv</h4>
+<Split>
+<h4>New Requirement: .xlsx + .csv</h4>
+<div><img src="./images/02.png" /></div>
+</Split>
 
 <Notes>
 Add dimension: Excel + CSV
-Oh no! new requirements from the sales team. they want csv and excel (and they
+new requirements from the sales team. they want csv and excel (and they
 apparently can't just export excel to csv)
 </Notes>
 
 ---
 
-Example FP
+<Split>
+<h4>New Requirement: Data validations</h4>
+<div><img src="./images/02.png" /></div>
+</Split>
 
 ---
 
-<h3>Recap</h3>
+<Split>
+<h4>New Requirement: New Client, New Format</h4>
+<div><img src="./images/02.png" /></div>
+</Split>
+
+---
+
+<h1>FP</h1>
+
+---
+
+<Split>
+<h4>.xlsx + .csv</h4>
+<div><img src="./images/02.png" /></div>
+</Split>
+
+---
+
+<Split>
+<h4>Data validations</h4>
+<img src="./images/02.png" />
+</Split>
+
+---
+
+<Split>
+<h4>New Client, New Format</h4>
+<img src="./images/02.png" />
+</Split>
+
+---
+
+<Split>
+<h2>Benefits</h2>
+<ul>
+<Appear>
+<li>Less Code</li>
+<li>Much easier to test</li>
+<li>more flexible</li>
+<li>more honest</li>
+</Appear>
+</ul>
+</Split>
+
+<Notes>
+This is why your life may be better if you choose these approaches
+</Notes>
+
+---
+
+<Split>
+<h2>Paradigm Smells</h2>
+<ul>
+<Appear>
+<li>divergent changes</li>
+<li>shot gun surgery</li>
+<li>desire to hide complexity</li>
+</Appear>
+</ul>
+</Split>
+
+---
+
+<Split>
+<h2>Process Smells</h2>
+<ul>
+<Appear>
+<li>Bifurcated communication channels</li>
+<li>Buisness Dev not pushing back on client requests</li>
+<li>Being reactive rather than proactive</li>
+</Appear>
+</ul>
+</Split>
+
+---
+
+<h2>Recap</h2>
 
 ---
 
@@ -241,11 +329,13 @@ or data
 
 ---
 
+<h3>Sprinkles</h3>
 <div>
-  But don't go overboard, a few sprinkles is probably all you need.
+just a little goes a long way
 </div>
 
-<Notes> The majority of what we want to do in our Rails apps is concerned with
+<Notes>
+The majority of what we want to do in our Rails apps is concerned with
 behaviour, so we would expect that most of our applicaiton code will be classes
 and object, thats our models, sevice objects, controllers, but sometimes we have
 supporting work that needs to be done and sometimes those tasks would be better
@@ -254,7 +344,8 @@ served with a functional approach
 
 ---
 
-<div>Don't just do things</div>
+<h3>Be Conscientious</h3>
+<div>of buisness goals before starting work</div>
 
 ---
 

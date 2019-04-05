@@ -56,10 +56,11 @@ reduce
 what are the paradigm smells: how do you know you've picked the wrong paradigm?
 -> divergent changes
 -> shotgun surgery
-
-what are the process smells: how do you know your process could be improved?
 -> desire to hide complexity: don't confuse hiding complexity with reducing
 complexity
+
+what are the process smells: how do you know your process could be improved?
+
 
 ---
 
@@ -70,3 +71,10 @@ complexity
 3. Behavior -> OO, Data -> FP
 
 4. We should choose our style based off our task
+
+
+---
+
+dependency structure
+
+- it might me nice to give a few strategies to apply functional styles to your code.
