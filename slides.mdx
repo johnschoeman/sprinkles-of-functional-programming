@@ -3,6 +3,8 @@ export { default as theme }  from './theme'
 import { Appear, Head, Notes } from 'mdx-deck'
 import { Split, Horizontal } from 'mdx-deck/layouts'
 
+import { Colors } from './styles'
+
 <Head>
   <title>Sprinkles of FP</title>
 </Head>
@@ -144,10 +146,30 @@ to
 
 ---
 
- `-` | Add new method | Add new Data
----|---|---
-OO | Existing code unchanged | Existing code changed
-FP | Existing code changed | Existing code unchanged
+
+<table>
+  <thead>
+    <tr style={{ borderBottom: "1px solid black", borderTop: "3px solid black" }}>
+      <th></th>
+      <th style={{ padding: "30px", textAlign: "left", color: Colors.primary }}>Add new method</th>
+      <th style={{ padding: "30px", textAlign: "left", color: Colors.primary }}>Add new data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ padding: "30px 60px", fontWeight: "bold", color:
+Colors.primary }}>OO</td>
+      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code unchanged</td>
+      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code changed</td>
+    </tr>
+    <tr style={{ borderBottom: "3px solid black" }}>
+      <td style={{ padding: "30px 60px", fontWeight: "bold", color:
+Colors.primary }}>FP</td>
+      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code changed</td>
+      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code unchanged</td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

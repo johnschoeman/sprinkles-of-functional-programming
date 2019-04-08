@@ -91,5 +91,5 @@ Dependency structure
 
 - tell a story of receive a request for users to upload a CSV
 - potential questions to ask about the work to help decide your approach
-t are other customers likely to want this feature?
+g are other customers likely to want this feature?
 - do we need to support multiple formats?
