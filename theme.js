@@ -15,6 +15,17 @@ export default {
     background: background,
     link: secondary,
   },
+  div: {
+    fontSize: "0.2em",
+  },
+  ul: {
+    listStyle: 'none',
+  },
+  li: {
+    fontSize: "0.9em",
+    padding: "20px",
+    width: '100%',
+  },
   table: {
     borderCollapse: "collapse",
   },

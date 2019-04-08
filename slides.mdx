@@ -13,25 +13,43 @@ import { Split, Horizontal } from 'mdx-deck/layouts'
 
 ---
 
-<div>Hello I'm John</div>
-<Horizontal>
-  <div>I work at</div>
-  <div><img src="./images/tb_horizontal_default.png" /></div>
-</Horizontal>
+<div>Hello I'm John,</div>
+<div>
+<div>I work at</div>
+<div><img src="./images/tb_horizontal_default.png" /></div>
+</div>
 
 ---
 
+<ul>
+<li>
 Github: /johnschoeman
-Twitter:
-<a>
-  @john_at_aol_dot_com_at_gmail_dot_com
-</a>
+</li>
+<li>
+Twitter: @john_at_aol_dot_com_at_gmail_dot_com
+</li>
+</ul>
+
 
 ---
 
-<h2>
-  Take Aways / Key Thesis
-</h2>
+<Split>
+<h3>Roadmap</h3>
+<ul>
+<Appear>
+<li style={{width: "150%"}}>Key Thesis</li>
+<li style={{width: "150%"}}>A Bit about FP and OO</li>
+<li style={{width: "150%"}}>A Recommendation</li>
+<li style={{width: "150%"}}>A Story with Some Code</li>
+<li style={{width: "150%"}}>Recap / Action Items</li>
+<li style={{width: "150%"}}>Questions</li>
+</Appear>
+</ul>
+</Split>
+
+---
+
+<h2>Key Thesis</h2>
 
 ---
 
@@ -47,11 +65,11 @@ Twitter:
 
 <Horizontal>
 
-```
+```jsx
 Object.new
 ```
 
-```
+```jsx
 l = -> x { x + 1 }
 
 ```
@@ -60,7 +78,7 @@ l = -> x { x + 1 }
 ---
 
 <h3>Different Paradigms</h3>
-<div>lend themselves to different tasks</div>
+<div>lend themselves to different tasks.</div>
 
 <Notes>
 some times we want to model some real world interactions, create things that
@@ -81,7 +99,8 @@ want to ask some quantitative question of some data.
 ---
 
 <h3>We should choose</h3>
-<div>our progamming style based off the task at hand</div>
+<div>our progamming style based off the task at hand.</div>
+<div>Doing so will lead to a better product.</div>
 
 <Notes>
    Some automation tasks lend themselves to an object oriented solution, some to a
@@ -94,76 +113,90 @@ want to ask some quantitative question of some data.
 
 ---
 
-<h2></h2>
+<div>
+<div>If you are modeling behaviour,</div>
+<div>perfer classes and composition.</div>
+</div>
+<br />
+<div>
+<div>If you are handling data,</div>
+<div>perfer data pipelines and folds.</div>
+</div>
 
 ---
 
-<h2>Behaviour and Data</h2>
-<div>is the distinction</div>
+<h2>A Bit about FP and OO</h2>
+
+---
+
+<h3>Objects and Functions</h3>
+<div>are a useful distinction.</div>
 
 <Notes>
 explain what you mean by fp
 it's not a percise term, it means some different depending on who you're talking
 to 
-- functions are at the forfront
-- avoiding mutation
-- avoiding side effects
+ functions are at the forfront
+ avoiding mutation
+ avoiding side effects
 </Notes>
 
 ---
 
-<Horizontal>
-<h4>Behaviour</h4>
-lends itself
-<h4>Objects</h4>
-</Horizontal>
-
-<br />
-
-<div>
-<h4>Data</h4> lends itself to <h4>Functions</h4>
-</div>
+<h3>What is Difficult to Change</h3>
+<div>is also a useful distinction.</div>
 
 ---
 
-`-` | Add new method | Add new Data
+ `-` | Add new method | Add new Data
 ---|---|---
 OO | Existing code unchanged | Existing code changed
 FP | Existing code changed | Existing code unchanged
-
-
-<Notes>
-Give a few examples of  of
-</Notes>
 
 ---
 
 <Split>
 <h3>OO Typical cases</h3>
-<Appears>
-<li>Behaviour modeling</li>
-<li>Relationshipt modeling</li>
-<li>Interation modeling</li>
-<li></li>
-</Appears>
+
+<ul>
+<Appear>
+<li style={{width: "150%"}}>Behaviour modeling</li>
+<li style={{width: "150%"}}>Relationship modeling</li>
+<li style={{width: "150%"}}>Interation modeling</li>
+</Appear>
+</ul>
+
 </Split>
 
 ---
 
 <Split>
 <h3>FP Typical cases</h3>
-<Appears>
-<li>Data transformations</li>
-<li>Data aggregates</li>
-<li>Data streaming</li>
-<li>Data templating</li>
-</Appears>
+<ul>
+<Appear>
+<li style={{width: "150%"}}>Data transformations</li>
+<li style={{width: "150%"}}>Data aggregates</li>
+<li style={{width: "150%"}}>Data streaming</li>
+<li style={{width: "150%"}}>Data templating</li>
+</Appear>
+</ul>
 </Split>
 
 ---
 
+<h2>A Recommendation</h2>
+
+---
+
+<h3>Given</h3>
+<div>that methods are easy to change in OO</div>
+<div>and data are easy to change in FP</div>
+
+---
+
 <h3>Ask</h3>
-<small>What do you expect will change</small>
+<div>how you expect requirements</div>
+<div>will change before beging a task.</div>
 
 <Notes>
   A good way to decide which task goes to which is by asking what is more
@@ -174,14 +207,18 @@ Give a few examples of  of
 
 ---
 
+<h3>Base</h3>
+<div>this question off the context of the buisness</div>
+<div>and what users might want.</div>
 
 ---
 
-<h2>Illustration</h2>
+<h2>A Story</h2>
+<div>with some code</div>
 
 ---
 
-<p>Imagine a Rails App</p>
+<h3>Imagine a Rails App</h3>
 
 <Notes>
 explain the app: a generic rails product monolith, there are users, which have
@@ -208,67 +245,39 @@ Lets call this product...
 
 ---
 
-<Split>
-<h4>New Requirement: .xlsx + .csv</h4>
-<div><img src="./images/02.png" /></div>
-</Split>
+<h3>New Requirement</h3>
+
+---
+
+<ul>
+<li>Inital Requirement: Clients Import CSV</li>
+<li>and then New Requirement: .xlsx + .csv</li>
+<li>and then New Requirement: New Client, New Format</li>
+<li>and then New Requirement: Data Validations</li>
+</ul>
 
 <Notes>
-Add dimension: Excel + CSV
 new requirements from the sales team. they want csv and excel (and they
 apparently can't just export excel to csv)
 </Notes>
 
 ---
 
-<Split>
-<h4>New Requirement: Data validations</h4>
-<div><img src="./images/02.png" /></div>
-</Split>
+<h2>Take Aways</h2>
 
 ---
 
 <Split>
-<h4>New Requirement: New Client, New Format</h4>
-<div><img src="./images/02.png" /></div>
-</Split>
-
----
-
-<h1>FP</h1>
-
----
-
-<Split>
-<h4>.xlsx + .csv</h4>
-<div><img src="./images/02.png" /></div>
-</Split>
-
----
-
-<Split>
-<h4>Data validations</h4>
-<img src="./images/02.png" />
-</Split>
-
----
-
-<Split>
-<h4>New Client, New Format</h4>
-<img src="./images/02.png" />
-</Split>
-
----
-
-<Split>
+<div>
 <h2>Benefits</h2>
+<div>of chosing the right paradigm for the task</div>
+</div>
 <ul>
 <Appear>
 <li>Less Code</li>
-<li>Easier to test</li>
-<li>Isolation of state</li>
-<li>more flexible</li>
-<li>more honest</li>
+<li>Easier to Test</li>
+<li>More Flexible</li>
+<li>More Honest</li>
 </Appear>
 </ul>
 </Split>
@@ -280,10 +289,14 @@ This is why your life may be better if you choose these approaches
 ---
 
 <Split>
+<div>
 <h2>Paradigm Smells</h2>
+<div>OO when FP might be a better choice</div>
+</div>
 <ul>
 <Appear>
-<li>divergent changes / shot gun surgery</li>
+<li>divergent changes</li>
+<li>shotgun surgery</li>
 <li>lots of 'something-er' classes</li>
 <li>UDL is a linked list</li>
 </Appear>
@@ -305,26 +318,18 @@ This is why your life may be better if you choose these approaches
 
 ---
 
-<h2>Recap</h2>
+<h2>Recap / Action Items</h2>
 
 ---
 
-<Split>
-
 <div>
-<h3>It's useful</h3>
+<h3>It's Useful</h3>
 <div>to consider the what about the task you expect to change</div>
 </div>
 
-<Appears>
-  <li>If you expect behaviour to change, perfer object oriented</li>
-  <li>If you expect data to change, prefer functional</li>
-</Appears>
-</Split>
-
 ---
 
-<h3>Sprinkles</h3>
+<h3>Sprinkles,</h3>
 <div>
 just a little goes a long way
 </div>
@@ -339,7 +344,7 @@ served with a functional approach
 
 ---
 
-<h3>Be conscientious</h3>
+<h3>Be Conscientious</h3>
 <div>of buisness goals before starting work</div>
 
 ---
@@ -352,7 +357,7 @@ served with a functional approach
 <li>Ask what do you expect will change?</li>
 <li>Data or Behaviour?</li>
 <li>if Data, consider a functional style</li>
-<li>if Behaviour, consider object oriented style</li>
+<li>if Behaviour, consider a object oriented style</li>
 </Appear>
 </ol>
 </Split>
