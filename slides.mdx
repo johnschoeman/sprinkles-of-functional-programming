@@ -43,7 +43,7 @@ Twitter: @john_at_aol_dot_com_at_gmail_dot_com
 <li style={{width: "150%"}}>A Bit about FP and OO</li>
 <li style={{width: "150%"}}>A Recommendation</li>
 <li style={{width: "150%"}}>A Story with Some Code</li>
-<li style={{width: "150%"}}>Recap / Action Items</li>
+<li style={{width: "150%"}}>Retro / Action Items</li>
 <li style={{width: "150%"}}>Questions</li>
 </Appear>
 </ul>
@@ -112,13 +112,15 @@ want to ask some quantitative question of some data.
 ---
 
 <div>
-<div>If you are modeling behaviour,</div>
-<div>perfer classes and composition.</div>
+<div>If you are modeling <text style={{ color: Colors.primary }}>behaviour</text>,</div>
+<div>perfer <text style={{ color: Colors.primary }}>classes</text> and <text style={{
+color: Colors.primary }}>composition</text>.</div>
 </div>
 <br />
 <div>
-<div>If you are handling data,</div>
-<div>perfer data pipelines and folds.</div>
+<div>If you are handling <text style={{ color: Colors.primary }}>data</text>,</div>
+<div>perfer data <text style={{ color: Colors.primary }}>pipelines</text> and <text
+style={{ color: Colors.primary }}>folds</text>.</div>
 </div>
 
 ---
@@ -141,7 +143,7 @@ to
 
 ---
 
-<h3>What is Difficult to Change</h3>
+<h3>What is difficult to change</h3>
 <div>is also a useful distinction.</div>
 
 ---
@@ -226,7 +228,7 @@ Colors.primary }}>FP</td>
 ---
 
 <h3>Base</h3>
-<div>this question off the context of the buisness</div>
+<div>this question off the context of your buisness</div>
 <div>and what users might want.</div>
 
 ---
@@ -267,11 +269,19 @@ Lets call this product...
 
 ---
 
+<h3>And so on...</h3>
+
+---
+
+<h2>Retro / Action Items</h2>
+
+---
+
 <ul>
 <li>Inital Requirement: Clients Import CSV</li>
-<li>and then New Requirement: .xlsx + .csv</li>
-<li>and then New Requirement: New Client, New Format</li>
-<li>and then New Requirement: Data Validations</li>
+<li><text style={{ color: Colors.primary }}>and then</text> New Requirement: .xlsx + .csv</li>
+<li><text style={{ color: Colors.primary }}>and then</text> New Requirement: New Client, New Format</li>
+<li><text style={{ color: Colors.primary }}>and then</text> New Requirement: Data Validations</li>
 </ul>
 
 <Notes>
@@ -281,7 +291,7 @@ apparently can't just export excel to csv)
 
 ---
 
-<h2>Take Aways</h2>
+<h3>Take Aways - Code Quality</h3>
 
 ---
 
@@ -307,23 +317,24 @@ This is why your life may be better if you choose these approaches
 ---
 
 <Split>
-<div>
+<div style={{ width: "90%" }}>
 <h2>Paradigm Smells</h2>
-<div>OO when FP might be a better choice</div>
+<div>Using OO for a task</div>
+<div>that lends itself to FP</div>
 </div>
-<ul>
+<ul style={{ width: "110%" }}>
 <Appear>
-<li>divergent changes</li>
-<li>shotgun surgery</li>
-<li>lots of 'something-er' classes</li>
-<li>UDL is a linked list</li>
+<li styles={{ width: "150%" }}>divergent changes</li>
+<li styles={{ width: "150%" }}>shotgun surgery</li>
+<li styles={{ width: "180%", border: "1px solid red" }}>lots of 'something-er' classes</li>
+<li styles={{ width: "150%" }}>UDL is a linked list</li>
 </Appear>
 </ul>
 </Split>
 
 ---
 
-<h2>Recap / Action Items</h2>
+<h3>Take Aways - Process</h3>
 
 ---
 
@@ -372,6 +383,17 @@ the bigger picture, you're at risk of choosing poorly.
 </Appear>
 </ol>
 </Split>
+
+---
+
+<h3>Thesis</h3>
+<ul>
+<Appear>
+<li>Given Ruby is a general purpose language.</li>
+<li>And different paradigms lend themselves to different tasks</li>
+<li>We should choose our style based off of our task</li>
+</Appear>
+</ul>
 
 ---
 
