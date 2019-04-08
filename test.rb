@@ -1,3 +1,4 @@
+
 d = [
   30644250780,
   9003106878,
@@ -23,3 +24,13 @@ a = "test-string"
 if true
   puts "hello"
 end
+
+
+
+          Object.new
+
+
+
+
+
+          l = -> x { x + 1 }

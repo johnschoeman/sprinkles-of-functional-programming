@@ -29,7 +29,4 @@ export default {
   table: {
     borderCollapse: "collapse",
   },
-  th: {
-    padding: "20px",
-  }
 }
