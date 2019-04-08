@@ -13,10 +13,6 @@ import { Split, Horizontal } from 'mdx-deck/layouts'
 
 ---
 
-<span>{ "***" }</span>
-
----
-
 <div>Hello I'm John</div>
 <Horizontal>
   <div>I work at</div>
@@ -39,7 +35,6 @@ Twitter:
 
 ---
 
-<div>1.</div>
 <h3>Ruby</h3>
 <div>is a general purpose language.</div>
 
@@ -64,9 +59,8 @@ l = -> x { x + 1 }
 
 ---
 
-<div>2.</div>
-<h3>Automation tasks</h3>
-<div>are not all the same</div>
+<h3>Different Paradigms</h3>
+<div>lend themselves to different tasks</div>
 
 <Notes>
 some times we want to model some real world interactions, create things that
@@ -75,14 +69,52 @@ represent a useful thing.
 sometime we want take some information from point a to point b, sometimes we
 want to ask some quantitative question of some data.
 
-Some automation tasks lend themselves to an object oriented solution, some to a
+</Notes>
+
+---
+
+<Horizontal>
+<h3>OO -> Behaviour</h3>
+<h3>FP -> Data</h3>
+</Horizontal>
+
+---
+
+<h3>We should choose</h3>
+<div>our progamming style based off the task at hand</div>
+
+<Notes>
+   Some automation tasks lend themselves to an object oriented solution, some to a
    functional solution.
+  - Sometimes it makes sense to program ruby in an object oriented way
+  - other times it makes sense to program ruby in a functional way.
+  - It depends on the task.
+  - (you may now leave)
+</Notes>
+
+---
+
+<h2></h2>
+
+---
+
+<h2>Behaviour and Data</h2>
+<div>is the distinction</div>
+
+<Notes>
+explain what you mean by fp
+it's not a percise term, it means some different depending on who you're talking
+to 
+- functions are at the forfront
+- avoiding mutation
+- avoiding side effects
 </Notes>
 
 ---
 
 <Horizontal>
 <h4>Behaviour</h4>
+lends itself
 <h4>Objects</h4>
 </Horizontal>
 
@@ -94,27 +126,6 @@ Some automation tasks lend themselves to an object oriented solution, some to a
 
 ---
 
-<div>
-  Given 1 and 2 we can conclude:
-</div>
-
----
-
-<div>3.</div>
-
-<h3>We should Choose</h3>
-<div>our progamming style based off of our task</div>
-
-<Notes>
-  - Sometimes it makes sense to program ruby in an object oriented way
-  - other times it makes sense to program ruby in a functional way.
-  - It depends on the task.
-  - (you may now leave)
-</Notes>
-
----
-
-
 `-` | Add new method | Add new Data
 ---|---|---
 OO | Existing code unchanged | Existing code changed
@@ -122,16 +133,30 @@ FP | Existing code changed | Existing code unchanged
 
 
 <Notes>
-Give a few examples of 
+Give a few examples of  of
 </Notes>
 
 ---
 
 <Split>
-<h3>Typical cases</h3>
+<h3>OO Typical cases</h3>
+<Appears>
+<li>Behaviour modeling</li>
+<li>Relationshipt modeling</li>
+<li>Interation modeling</li>
+<li></li>
+</Appears>
+</Split>
+
+---
+
+<Split>
+<h3>FP Typical cases</h3>
 <Appears>
 <li>Data transformations</li>
 <li>Data aggregates</li>
+<li>Data streaming</li>
+<li>Data templating</li>
 </Appears>
 </Split>
 
@@ -149,15 +174,6 @@ Give a few examples of
 
 ---
 
-<ol>
-<Appear>
-<li>Understand your task before you choose style</li>
-<li>Ask what do you expect will change?</li>
-<li>Data or Behaviour?</li>
-<li>if Data, consider a functional style</li>
-<li>if Behaviour, consider object oriented style</li>
-</Appear>
-</ol>
 
 ---
 
@@ -249,8 +265,8 @@ apparently can't just export excel to csv)
 <ul>
 <Appear>
 <li>Less Code</li>
-<li>Much easier to test</li>
-<li>Separation of state from conditionals</li>
+<li>Easier to test</li>
+<li>Isolation of state</li>
 <li>more flexible</li>
 <li>more honest</li>
 </Appear>
@@ -267,9 +283,9 @@ This is why your life may be better if you choose these approaches
 <h2>Paradigm Smells</h2>
 <ul>
 <Appear>
-<li>divergent changes</li>
-<li>shot gun surgery</li>
-<li>desire to hide complexity</li>
+<li>divergent changes / shot gun surgery</li>
+<li>lots of 'something-er' classes</li>
+<li>UDL is a linked list</li>
 </Appear>
 </ul>
 </Split>
@@ -293,22 +309,18 @@ This is why your life may be better if you choose these approaches
 
 ---
 
-<div>
-It's useful to consider the type of task you are trying to accomplish before you
-the programming style
-</div>
-
----
+<Split>
 
 <div>
-Its' useful to consider the what about the task you expect to change: behaviour,
-or data
+<h3>It's useful</h3>
+<div>to consider the what about the task you expect to change</div>
 </div>
 
 <Appears>
   <li>If you expect behaviour to change, perfer object oriented</li>
   <li>If you expect data to change, prefer functional</li>
 </Appears>
+</Split>
 
 ---
 
@@ -327,8 +339,23 @@ served with a functional approach
 
 ---
 
-<h3>Be Conscientious</h3>
+<h3>Be conscientious</h3>
 <div>of buisness goals before starting work</div>
+
+---
+
+<Split>
+<h2>Action Items</h2>
+<ol>
+<Appear>
+<li>Understand your task before you choose style</li>
+<li>Ask what do you expect will change?</li>
+<li>Data or Behaviour?</li>
+<li>if Data, consider a functional style</li>
+<li>if Behaviour, consider object oriented style</li>
+</Appear>
+</ol>
+</Split>
 
 ---
 

@@ -44,8 +44,13 @@ the existence of higher order functions?
 data pipelines
 
 
+Where does this apply?
+
 The two easy ones.
-transformations and aggregations
+data transformations
+data aggregations
+data streaming
+data templating
 
 mutations
 yield self / then
@@ -56,8 +61,10 @@ reduce
 what are the paradigm smells: how do you know you've picked the wrong paradigm?
 -> divergent changes
 -> shotgun surgery
--> desire to hide complexity: don't confuse hiding complexity with reducing
-complexity
+-> lots of hiding complexity moments, when what you're doing isn't really that
+complex
+-> lots of classes that end in 'er'
+
 
 what are the process smells: how do you know your process could be improved?
 
