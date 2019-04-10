@@ -93,3 +93,6 @@ Dependency structure
 - potential questions to ask about the work to help decide your approach
 g are other customers likely to want this feature?
 - do we need to support multiple formats?
+
+
+"Good code is code that is easy to change" -quote.

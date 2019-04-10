@@ -90,7 +90,7 @@ want to ask some quantitative question of some data.
 ---
 
 <Horizontal>
-<div style={{ width: "500px"}}><h4>OO -> Behaviour</h4></div>
+<div style={{ width: "500px"}}><h4>OO -> Behavior</h4></div>
 <div style={{ width: "500px"}}><h4>FP -> Data</h4></div>
 </Horizontal>
 
@@ -112,14 +112,14 @@ want to ask some quantitative question of some data.
 ---
 
 <div>
-<div>If you are modeling <text style={{ color: Colors.primary }}>behaviour</text>,</div>
+<div>If you are modeling <text style={{ color: Colors.primary }}>behavior</text>,</div>
 <div>perfer <text style={{ color: Colors.primary }}>classes</text> and <text style={{
 color: Colors.primary }}>composition</text>.</div>
 </div>
 <br />
 <div>
 <div>If you are handling <text style={{ color: Colors.primary }}>data</text>,</div>
-<div>perfer data <text style={{ color: Colors.primary }}>pipelines</text> and <text
+<div>perfer <text style={{ color: Colors.primary }}>data pipelines</text> and <text
 style={{ color: Colors.primary }}>folds</text>.</div>
 </div>
 
@@ -144,7 +144,7 @@ to
 ---
 
 <h3>What is difficult to change</h3>
-<div>is also a useful distinction.</div>
+<div>is perhaps a better distinction.</div>
 
 ---
 
@@ -180,9 +180,9 @@ Colors.primary }}>FP</td>
 
 <ul>
 <Appear>
+<li style={{width: "150%"}}>Resource modeling</li>
 <li style={{width: "150%"}}>Behaviour modeling</li>
-<li style={{width: "150%"}}>Relationship modeling</li>
-<li style={{width: "150%"}}>Interation modeling</li>
+<li style={{width: "150%"}}>State modeling</li>
 </Appear>
 </ul>
 
@@ -220,8 +220,8 @@ Colors.primary }}>FP</td>
 
 <Notes>
   A good way to decide which task goes to which is by asking what is more
-  likely to change in the future of your program, the behaviour, or the data?
-  thus given a task you're solving with programming, if you expect behaviour to
+  likely to change in the future of your program, the behavior, or the data?
+  thus given a task you're solving with programming, if you expect behavior to
   change, prefer object oriented. if you expect data to change, prefer functional programming
 </Notes>
 
@@ -327,10 +327,14 @@ This is why your life may be better if you choose these approaches
 <li styles={{ width: "150%" }}>divergent changes</li>
 <li styles={{ width: "150%" }}>shotgun surgery</li>
 <li styles={{ width: "180%", border: "1px solid red" }}>lots of 'something-er' classes</li>
-<li styles={{ width: "150%" }}>UDL is a linked list</li>
+<li styles={{ width: "150%" }}>UML is a linked list</li>
 </Appear>
 </ul>
 </Split>
+
+---
+
+<div><img style={{ width: "50%" }} src="./images/03.png" /></div>
 
 ---
 
@@ -352,7 +356,7 @@ just a little goes a long way
 
 <Notes>
 The majority of what we want to do in our Rails apps is concerned with
-behaviour, so we would expect that most of our applicaiton code will be classes
+behavior, so we would expect that most of our applicaiton code will be classes
 and object, thats our models, sevice objects, controllers, but sometimes we have
 other task that needs to be done which would lend themselves to a funcitonal
 style, but it would be a mistake to try to do everything in a functional style.
