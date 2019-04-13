@@ -96,3 +96,8 @@ g are other customers likely to want this feature?
 
 
 "Good code is code that is easy to change" -quote.
+
+---
+
+"don't paint yourself into a corner" in regards to just building things without
+knowing whats comming in future feature requests.
