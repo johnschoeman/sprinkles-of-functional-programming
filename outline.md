@@ -101,3 +101,8 @@ g are other customers likely to want this feature?
 
 "don't paint yourself into a corner" in regards to just building things without
 knowing whats comming in future feature requests.
+
+---
+
+You can have both and object oriented paradigm and a functional paradigm present
+in the same code base. In fact you should.
