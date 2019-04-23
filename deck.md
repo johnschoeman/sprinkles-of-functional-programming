@@ -223,12 +223,11 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 ---
 
 ### Initial Requirement
+#### Allow users to upload a csv
 
-^
-1. rake task to poll the data - iterate over the files in the ftp server, kick
-   off background worker
-2. worker: call importer class - iterate over the rows, save to the database
-3. success
+---
+
+### Initial Requirement: Gif
 
 ---
 
@@ -236,20 +235,11 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 
 ---
 
-```ruby
-# config/routes.rb
-Rails.application.routes.draw do
-  root "products#index"
-
-  resources :products
-  resources :imports, only: %i[create]
-end
-```
+### Initial Requirement: Code
 
 ---
 
 ```ruby
-# app/controllers/imports_controller.rb
 class ImportsController < ApplicationController
   def create
     Product.import(params[:file].path)
@@ -261,7 +251,6 @@ end
 ---
 
 ```ruby
-# app/models/product.rb
 require "csv"
 
 class Product < ApplicationRecord
@@ -272,8 +261,7 @@ class Product < ApplicationRecord
       data = row.to_h
       data["active"] = data["active"] == "true"
       data["release_date"] = Time.zone.parse(data["release_date"])
-      product = new(data)
-      product.save
+      Product.create(data)
     end
   end
 end
@@ -282,8 +270,6 @@ end
 ---
 
 ```ruby
-# spec/models/product_spec.rb
-...
   describe ".import" do
     context "the file is a csv" do
       it "saves every row in the file as new product" do
@@ -296,23 +282,60 @@ end
       end
     end
   end
-
-  def stub_csv(filename = "filename.csv")
-    file =
-      Tempfile.new(filename).tap do |f|
-        f.puts "name,author,release_date,version,value,active"
-        f.puts "name_a,author_a,20190101,1.0,1,true"
-        f.puts "name_b,author_b,20190201,1.1,2,false"
-        f.puts "name_c,author_c,20190301,1.2,3,true"
-        f.close
-      end
-    file.path
-  end
 ```
 
 ---
 
-### Object Oriented Path
+### New Requirement: Remote Polling
+#### Scheduled job that imports all files from a sftp server
+
+^
+1. rake task to poll the data - iterate over the files in the ftp server, kick
+   off background worker
+2. worker: call importer class - iterate over the rows, save to the database
+3. success
+
+---
+
+```
+- app
+  - controllers
+  - models
+  - views
+  - services
+    - poll_for_remote_files.rb
+  - workers
+    - product_import_worker.rb
+
+- lib
+  - tasks
+    - products.rake
+
+...
+```
+
+---
+
+```ruby
+namespace :products do
+  desc "Fetch and process csvs from stfp server"
+  task remote_import: :environment do
+    ProcessRemoteFiles.run
+  end
+end
+```
+
+---
+
+```ruby
+class ProductImportWorker
+  include Sidekiq::Worker
+
+  def perform(file_path)
+    Product.import(file_path)
+  end
+end
+```
 
 ---
 
@@ -320,7 +343,83 @@ end
 
 ---
 
+1. Introduce product data importer
+2. Introduce product data formatter
+3. Allow .xlsx format for importer
+
+---
+
+```ruby
+class ProductDataImporter
+  attr_reader :filepath
+
+  def initialize(filepath)
+    @filepath = filepath
+  end
+
+  def import
+    CSV.foreach(filepath, headers: true) do |row|
+      data = row.to_h
+      data["active"] = data["active"] == "true"
+      Product.create(data)
+    end
+  end
+end
+```
+
+---
+
+```ruby
+class ImportsController < ApplicationController
+  def create
+    importer = ProductDataImporter.new(params[:file].path)
+    importer.import
+    redirect_to products_path, notice: "Succesfully imported"
+  end
+end
+```
+
+---
+
+```ruby
+class ProductDataFormatter
+  def build(csv_row)
+    data = csv_row.to_h.symbolize_keys
+    data[:active] = data[:active] == "true"
+    data[:release_date] = Time.zone.parse(data[:release_date])
+    data[:value] = data[:value].to_i
+    data
+  end
+end
+```
+
+---
+
+```
+- app
+  - models
+    - application_record.rb
+    - product.rb
+    - product_data_formatter.rb
+    - product_data_importer.rb
+```
+
+---
+
 ### New Requirement (New client, new formats)
+
+---
+
+1. refactor importer and raise if unknown file type
+2. introduce file importer
+3. introduce data builder class
+4. Strip $ from value attribute in formatter
+
+---
+
+```
+
+```
 
 ---
 
@@ -380,6 +479,13 @@ apparently can't just export excel to csv)
 ---
 
 ### Number of APIs
+
+---
+
+### Dev Time
+
+OO - about a work day
+FP - about an hour
 
 ---
 
