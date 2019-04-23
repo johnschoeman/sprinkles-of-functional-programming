@@ -1,6 +1,4 @@
 footer: © thoughtbot
-slidenumbers: true
-
 
 # Sprinkles of Functional Programming
 
@@ -14,8 +12,12 @@ I work at
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 - Github: /johnschoeman
-- Twitter: @john_at_aol_dot_com_at_gmail_dot_com
+- Twitter: @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
 
 ---
 
@@ -34,6 +36,8 @@ I work at
 
 ---
 
+<br/>
+
 ### Ruby
 is a general purpose language.
 
@@ -42,17 +46,22 @@ programming. the developer gets to choose
 
 ---
 
-![](./images/01.png)
+```ruby
+Object.new
+```
 
-![](./images/02.png)
+```ruby
+-> (x) { |x| x + 1 }
+```
 
 ---
+
+<br/>
 
 ### Different Paradigms
 lend themselves to different tasks.
 
-^
-some times we want to model some real world interactions, create things that
+^ some times we want to model some real world interactions, create things that
 represent a useful thing. sometime we want take some information from point a to point b, sometimes we
 want to ask some quantitative question of some data.
 
@@ -60,10 +69,18 @@ want to ask some quantitative question of some data.
 
 ---
 
+<br/>
+<br/>
+
 OO -> Behavior
+
+<br/>
+
 FP -> Data
 
 ---
+
+<br/>
 
 ### We should choose
 our progamming style based off the task at hand.
@@ -78,6 +95,9 @@ Doing so will lead to a better product.
 
 ---
 
+<br/>
+<br/>
+
 If you are modeling behavior
 prefer classes and composition.
 
@@ -88,9 +108,13 @@ prefer data pipelines and folds.
 
 ---
 
+<br/>
+
 ## A Bit about FP and OO
 
 ---
+
+<br/>
 
 ### Objects and Functions
 are a useful distinction.
@@ -104,34 +128,17 @@ to
 
 ---
 
+<br/>
+
 ### What is difficult to change
 is perhaps a better distinction.
 
 ---
 
-<table>
-  <thead>
-    <tr style={{ borderBottom: "1px solid black", borderTop: "3px solid black" }}>
-      <th></th>
-      <th style={{ padding: "30px", textAlign: "left", color: Colors.primary }}>Add new method</th>
-      <th style={{ padding: "30px", textAlign: "left", color: Colors.primary }}>Add new data</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style={{ padding: "30px 60px", fontWeight: "bold", color:
-Colors.primary }}>OO</td>
-      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code unchanged</td>
-      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code changed</td>
-    </tr>
-    <tr style={{ borderBottom: "3px solid black" }}>
-      <td style={{ padding: "30px 60px", fontWeight: "bold", color:
-Colors.primary }}>FP</td>
-      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code changed</td>
-      <td style={{ padding: "30px", textAlign: "left", fontSize: "0.8em" }}>Existing code unchanged</td>
-    </tr>
-  </tbody>
-</table>
+ `-` | Add new method | Add new Data
+---|---|---
+OO | Existing code unchanged | Existing code changed
+FP | Existing code changed | Existing code unchanged
 
 ---
 
@@ -156,11 +163,15 @@ Colors.primary }}>FP</td>
 
 ---
 
+<br/>
+
 ### Given
 that methods are easy to change in OO
 and data are easy to change in FP
 
 ---
+
+<br/>
 
 ### Ask
 how you expect requirements
@@ -174,11 +185,15 @@ will change before beging a task.
 
 ---
 
+<br/>
+
 ### Base
 this question off the context of your business
 and what users might want.
 
 ---
+
+<br/>
 
 ## A Story
 with some code
@@ -187,16 +202,15 @@ with some code
 
 ### Imagine a Rails App
 
-^
-explain the app: a generic rails product monolith, there are users, which have
+^ explain the app: a generic rails product monolith, there are users, which have
 things, and can do things, say a b to b of medium to largish size.
 
-explain the problem: users would like to migrate to the app, they need to upload
+^ explain the problem: users would like to migrate to the app, they need to upload
 their spreadsheets to the app, we need to ingest those spreadsheets, save the
 rows for the users as active record objects. They'd like to upload the
 spreadsheets to an ftp server and we'll poll it every day to import the files.
 
-Lets call this product...
+^ Lets call this product...
 
 ---
 
@@ -221,6 +235,8 @@ Lets call this product...
 ## Retro / Action Items
 
 ---
+
+<br/>
 
 - Initial Requirement: Clients Import CSV
 -  New Requirement: .xlsx + .csv
@@ -262,7 +278,7 @@ that lends itself to FP
 
 ---
 
-![](./images/03.png)
+![50%, left](./images/03.png)
 
 ---
 
@@ -270,10 +286,14 @@ that lends itself to FP
 
 ---
 
+<br/>
+
 ### It's Useful
 to consider the what about the task you expect to change
 
 ---
+
+<br/>
 
 ### Sprinkles,
 just a little goes a long way
@@ -285,6 +305,8 @@ other task that needs to be done which would lend themselves to a funcitonal
 style, but it would be a mistake to try to do everything in a functional style.
 
 ---
+
+<br/>
 
 ### Be Conscientious
 of buisness goals before starting work.
@@ -305,11 +327,23 @@ the bigger picture, you're at risk of choosing poorly.
 
 ---
 
-### Thesis
+## Thesis
 
 - Given Ruby is a general purpose language.
 - And different paradigms lend themselves to different tasks
 - We should choose our style based off of our task
+
+---
+
+### Repo:
+
+Code:
+
+johnschoeman/sprinkles-of-functional-programming-app
+
+Slides:
+
+johnschoeman/sprinkles-of-functional-programming
 
 ---
 
