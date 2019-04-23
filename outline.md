@@ -59,15 +59,23 @@ reduce
 
 
 what are the paradigm smells: how do you know you've picked the wrong paradigm?
+
 -> divergent changes
 -> shotgun surgery
 -> lots of hiding complexity moments, when what you're doing isn't really that
 complex
 -> lots of classes that end in 'er'
+-> tests with lots of stubs and mocks for code you own
+-> having to open many files to understand one task
 
 
 what are the process smells: how do you know your process could be improved?
 
+-> commit messages are less focused on user/client are more focused on the
+implementation or developer
+-> just building things without asking the users what problem they want solved
+(why can't we just export xlsx)
+-> not pushing back on odd feature requests
 
 ---
 
@@ -100,9 +108,12 @@ g are other customers likely to want this feature?
 ---
 
 "don't paint yourself into a corner" in regards to just building things without
-knowing whats comming in future feature requests.
+knowing whats coming in future feature requests.
 
 ---
 
 You can have both and object oriented paradigm and a functional paradigm present
 in the same code base. In fact you should.
+
+---
+
