@@ -214,6 +214,10 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 
 ---
 
+![](./images/create_a_product.mov)
+
+---
+
 ### Initial Requirement
 
 ^
@@ -224,6 +228,9 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 
 ---
 
+![](./images/upload_csv.mov)
+
+---
 ### New Requirement
 
 ---
