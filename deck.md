@@ -39,16 +39,21 @@ I work at
 <br/>
 
 ### Ruby
-is a general purpose language.
+is a multi-paradigm language
 
 ^ it is excellent with both object oriented programming and functional
 programming. the developer gets to choose
 
 ---
 
+<br/>
+<br/>
+
 ```ruby
 Object.new
 ```
+
+<br/>
 
 ```ruby
 -> (x) { |x| x + 1 }
@@ -59,7 +64,7 @@ Object.new
 <br/>
 
 ### Different Paradigms
-lend themselves to different tasks.
+lend themselves to different tasks
 
 ^ some times we want to model some real world interactions, create things that
 represent a useful thing. sometime we want take some information from point a to point b, sometimes we
@@ -83,8 +88,9 @@ FP -> Data
 <br/>
 
 ### We should choose
-our progamming style based off the task at hand.
-Doing so will lead to a better product.
+our progamming style based off the task at hand
+
+^ Doing so will lead to a better product.
 
 ^  Some automation tasks lend themselves to an object oriented solution, some to a
    functional solution.
@@ -98,7 +104,7 @@ Doing so will lead to a better product.
 <br/>
 <br/>
 
-If you are modeling behavior
+If you are modeling behavior,
 prefer classes and composition.
 
 <br />
@@ -107,8 +113,6 @@ If you are handling data,
 prefer data pipelines and folds.
 
 ---
-
-<br/>
 
 ## A Bit about FP and OO
 
@@ -189,7 +193,7 @@ will change before beging a task.
 
 ### Base
 this question off the context of your business
-and what users might want.
+and what users might want
 
 ---
 
@@ -231,11 +235,122 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 ![](./images/upload_csv.mov)
 
 ---
-### New Requirement
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  root "products#index"
+
+  resources :products
+  resources :imports, only: %i[create]
+end
+```
 
 ---
 
-### And so on...
+```ruby
+# app/controllers/imports_controller.rb
+class ImportsController < ApplicationController
+  def create
+    Product.import(params[:file].path)
+    redirect_to products_path, notice: "Succesfully imported"
+  end
+end
+```
+
+---
+
+```ruby
+# app/models/product.rb
+require "csv"
+
+class Product < ApplicationRecord
+  validates :name, presence: true
+
+  def self.import(file_path)
+    CSV.foreach(file_path, headers: true) do |row|
+      data = row.to_h
+      data["active"] = data["active"] == "true"
+      data["release_date"] = Time.zone.parse(data["release_date"])
+      product = new(data)
+      product.save
+    end
+  end
+end
+```
+
+---
+
+```ruby
+# spec/models/product_spec.rb
+...
+  describe ".import" do
+    context "the file is a csv" do
+      it "saves every row in the file as new product" do
+        require "csv"
+        filepath = stub_csv
+
+        Product.import(filepath)
+
+        expect(Product.count).to eq 3
+      end
+    end
+  end
+
+  def stub_csv(filename = "filename.csv")
+    file =
+      Tempfile.new(filename).tap do |f|
+        f.puts "name,author,release_date,version,value,active"
+        f.puts "name_a,author_a,20190101,1.0,1,true"
+        f.puts "name_b,author_b,20190201,1.1,2,false"
+        f.puts "name_c,author_c,20190301,1.2,3,true"
+        f.close
+      end
+    file.path
+  end
+```
+
+---
+
+### Object Oriented Path
+
+---
+
+### New Requirement (xlsx + csv)
+
+---
+
+### New Requirement (New client, new formats)
+
+---
+
+### New Requirement (Data validation)
+
+---
+
+### Functional Path
+
+---
+
+### New Requirement (xlsx + csv)
+
+---
+
+### New Requirement (New client, new formats)
+
+---
+
+### New Requirement (Data validation)
+
+---
+
+### Recap
+
+![right, fit](./images/git_branches.png)
+
+---
+
+![fit](./images/git_diss.png)
 
 ---
 
@@ -246,13 +361,25 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 <br/>
 
 - Initial Requirement: Clients Import CSV
--  New Requirement: .xlsx + .csv
--  New Requirement: New Client, New Format
--  New Requirement: Data Validations
+- and then New Requirement: .xlsx + .csv
+- and then New Requirement: New Client, New Format
+- and then New Requirement: Data Validations
 
 ^
 new requirements from the sales team. they want csv and excel (and they
 apparently can't just export excel to csv)
+
+---
+
+### Git Churn
+
+---
+
+### Number of files
+
+---
+
+### Number of APIs
 
 ---
 
@@ -261,7 +388,7 @@ apparently can't just export excel to csv)
 ---
 
 ## Benefits
-of chosing the right paradigm for the task
+of choosing the right paradigm for the task
 
 - Less Code
 - Easier to Test
@@ -273,13 +400,9 @@ of chosing the right paradigm for the task
 ---
 
 ## Paradigm Smells
-Using OO for a task
-that lends itself to FP
+Using OO for a task that lends itself to FP
 
-- divergent changes
-- shotgun surgery
-- lots of collaborator mocking
-- having to open many files to understand one task
+- divergent changes / shotgun surgery
 - lots of 'something-er' classes
 - UML is a linked list
 
