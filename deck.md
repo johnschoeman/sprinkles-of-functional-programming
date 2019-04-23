@@ -406,7 +406,64 @@ end
 
 ---
 
-### New Requirement (New client, new formats)
+```
+- spec
+  - models
+    - product_spec.rb
+    - product_data_formatter_spec.rb
+    - product_data_importer_spec.rb
+```
+
+---
+
+```ruby
+require "csv"
+
+class ProductDataImporter
+  attr_reader :filepath, :formatter
+
+  def initialize(filepath, formatter)
+    @filepath = filepath
+    @formatter = formatter
+  end
+
+  def import
+    case File.extname(filepath)
+    when ".csv"
+      import_csv
+    when ".xlsx"
+      import_xlsx
+    end
+  end
+
+  private
+
+  def import_csv
+    CSV.foreach(filepath, headers: true) do |row|
+      formatted_data = formatter.build(row)
+      formatted_data = formatter.build_csv(row)
+      Product.create(formatted_data)
+    end
+  end
+
+  def import_xlsx
+    workbook = RubyXL::Parser.parse(filepath)
+    worksheet = workbook.worksheets.first
+    worksheet.each_with_index do |row, idx|
+      if idx == 0
+        next
+      end
+      formatted_data = formatter.build_xlsx(row)
+      Product.create(formatted_data)
+    end
+  end
+end
+```
+
+---
+
+### New Requirement
+New client, new formats
 
 ---
 
@@ -418,7 +475,34 @@ end
 ---
 
 ```
+- app
+  - models
+    - application_record.rb
+    - csv_builder.rb
+    - csv_importer.rb
+    - file_importer.rb
+    - product.rb
+    - product_data_builder.rb
+    - product_data_formatter.rb
+    - product_data_importer.rb
+    - xlsx_builder.rb
+    - xlsx_importer.rb
+```
 
+---
+
+```
+- spec
+  - models
+    - csv_builder_spec.rb
+    - csv_importer_spec.rb
+    - file_importer_spec.rb
+    - product_spec.rb
+    - product_data_builder_spec.rb
+    - product_data_formatter_spec.rb
+    - product_data_importer_spec.rb
+    - xlsx_builder_spec.rb
+    - xlsx_importer_spec.rb
 ```
 
 ---
@@ -428,6 +512,7 @@ end
 ---
 
 ### Functional Path
+Let's go back a few steps
 
 ---
 
