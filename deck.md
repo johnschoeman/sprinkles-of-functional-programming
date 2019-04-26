@@ -1,4 +1,4 @@
-footer: © thoughtbot
+footer: johnschoeman
 
 # Sprinkles of Functional Programming
 
@@ -23,11 +23,13 @@ I work at
 ### Roadmap
 
 - Key Thesis
-- A Bit about FP and OO
+- FP and OO
 - A Recommendation
 - A Story with Some Code
 - Retro / Action Items
 - Questions
+
+^ not here to teach functional programming specifically.
 
 ---
 
@@ -45,7 +47,6 @@ programming. the developer gets to choose
 
 ---
 
-<br/>
 <br/>
 
 ```ruby
@@ -70,19 +71,18 @@ yield_self / then
 lend themselves to different tasks
 
 ^ some times we want to model some real world interactions, create things that
-represent a useful thing. sometime we want take some information from point a to point b, sometimes we
+represent a useful thing. Sometimes we want take some information from point a to point b, sometimes we
 want to ask some quantitative question of some data.
 
 ---
 
 <br/>
+
+### OO -> Behavior
+
 <br/>
 
-OO -> Behavior
-
-<br/>
-
-FP -> Data
+### FP -> Data
 
 ---
 
@@ -111,11 +111,11 @@ prefer *classes* and *composition*.
 <br />
 
 If you are handling *data*,
-prefer data *pipelines* and *folds*.
+prefer *data pipelines* and *folds*.
 
 ---
 
-## A Bit about FP and OO
+## FP and OO
 
 ---
 
@@ -140,10 +140,10 @@ is perhaps a better distinction.
 
 ---
 
- `-` | Add new method | Add new Data
----|---|---
-OO | Existing code unchanged | Existing code changed
-FP | Existing code changed | Existing code unchanged
+ | *Add new method* | *Add new Data*
+---|:---|:---
+*OO* | Existing code unchanged | Existing code changed
+*FP* | Existing code changed | Existing code unchanged
 
 ---
 
@@ -171,8 +171,8 @@ FP | Existing code changed | Existing code unchanged
 <br/>
 
 ### Given
-that methods are easy to change in OO
-and data are easy to change in FP
+that methods are easy to add in OO
+and data is easy to add in FP
 
 ---
 
@@ -180,7 +180,7 @@ and data are easy to change in FP
 
 ### Ask
 how you expect requirements
-will change before beging a task.
+will change before beginning a task.
 
 ^
   A good way to decide which task goes to which is by asking what is more
@@ -224,12 +224,73 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 ---
 
 ### Initial Requirement
-#### Allow users to upload a csv
+Allow users to upload a csv
 
 ---
 
 ### Initial Requirement
 #### Code
+
+---
+
+```ruby
+RSpec.describe "User uploads a file of produce data" do
+  scenario "by visiting the root page and clicking 'upload file'" do
+    visit root_path
+
+    attach_file("file", Rails.root.join("spec/fixtures/products.csv"))
+    click_on "Upload File"
+
+    expect(Product.count).to eq 3
+  end
+end
+```
+
+---
+
+```ruby
+class ImportsController < ApplicationController
+  def create
+    Product.import(params[:file].path)
+    redirect_to products_path, notice: "Succesfully imported"
+  end
+end
+```
+
+---
+
+```ruby
+  describe ".import" do
+    context "the file is a csv" do
+      it "saves every row in the file as new product" do
+        filepath = stub_csv
+
+        Product.import(filepath)
+
+        expect(Product.count).to eq 3
+      end
+    end
+  end
+```
+
+---
+
+```ruby
+require "csv"
+
+class Product < ApplicationRecord
+  validates :name, presence: true
+
+  def self.import(file_path)
+    CSV.foreach(file_path, headers: true) do |row|
+      data = row.to_h
+      data["active"] = data["active"] == "true"
+      data["release_date"] = Time.zone.parse(data["release_date"])
+      create(data)
+    end
+  end
+end
+```
 
 ---
 
@@ -256,67 +317,6 @@ spreadsheets to an ftp server and we'll poll it every day to import the files.
 
 ---
 
-```ruby
-class ImportsController < ApplicationController
-  def create
-    Product.import(params[:file].path)
-    redirect_to products_path, notice: "Succesfully imported"
-  end
-end
-```
-
----
-
-```ruby
-require "csv"
-
-class Product < ApplicationRecord
-  validates :name, presence: true
-
-  def self.import(file_path)
-    CSV.foreach(file_path, headers: true) do |row|
-      data = row.to_h
-      data["active"] = data["active"] == "true"
-      data["release_date"] = Time.zone.parse(data["release_date"])
-      Product.create(data)
-    end
-  end
-end
-```
-
----
-
-```ruby
-RSpec.describe "User uploads a file of produce data" do
-  scenario "by visiting the root page and clicking 'upload file'" do
-    visit root_path
-
-    attach_file("file", Rails.root.join("spec/fixtures/products.csv"))
-    click_on "Upload File"
-
-    expect(Product.count).to eq 3
-  end
-end
-```
-
----
-
-```ruby
-  describe ".import" do
-    context "the file is a csv" do
-      it "saves every row in the file as new product" do
-        filepath = stub_csv
-
-        Product.import(filepath)
-
-        expect(Product.count).to eq 3
-      end
-    end
-  end
-```
-
----
-
 ### Initial Requirement
 #### Gif
 
@@ -326,11 +326,20 @@ end
 
 ---
 
-### New Requirement (xlsx + csv)
+### New Requirement
+csv + xlsx
 
 ---
 
-1. Introduce product data importer
+1 Introduce product data importer
+
+---
+
+```ruby
+RSpec.describe ProductDataImporter
+  ...
+end
+```
 
 ---
 
@@ -366,7 +375,15 @@ end
 
 ---
 
-2. Introduce product data formatter
+2 Introduce product data formatter
+
+---
+
+```ruby
+Rspec.describe ProductDataFormatter
+  ...
+end
+```
 
 ---
 
@@ -384,7 +401,15 @@ end
 
 ---
 
-3. Allow .xlsx format for importer
+3 Allow .xlsx format for importer
+
+---
+
+```ruby
+Rspec.describe ProductDataImporter
+ ...
+end
+```
 
 ---
 
@@ -438,7 +463,14 @@ New client, new formats
 
 ---
 
-1. refactor importer and raise if unknown file type
+4 Refactor importer
+
+---
+
+```ruby
+RSpec.describe CsvImporter
+end
+```
 
 ---
 
@@ -465,6 +497,13 @@ end
 ---
 
 ```ruby
+RSpec.describe XlsxImporter
+end
+```
+
+---
+
+```ruby
 class XlsxImporter
   attr_reader :filepath, :formatter
 
@@ -484,7 +523,14 @@ end
 
 ---
 
-2. introduce file importer
+5 introduce file importer
+
+---
+
+```ruby
+RSpec.describe FileImporter
+end
+```
 
 ---
 
@@ -519,7 +565,14 @@ end
 
 ---
 
-3. introduce data builder class
+6 introduce data builder class
+
+---
+
+```ruby
+RSpec.describe ProductDataBuilder
+end
+```
 
 ---
 
@@ -540,6 +593,13 @@ end
 ---
 
 ```ruby
+RSpec.describe XlsxBuilder do
+end
+```
+
+---
+
+```ruby
 class XlsxBuilder < ProductDataBuilder
   HEADERS = %w[name author release_date value version active].freeze
 
@@ -548,6 +608,13 @@ class XlsxBuilder < ProductDataBuilder
     data = HEADERS.zip(cells).to_h.symbolize_keys
     formatter.format(data)
   end
+end
+```
+
+---
+
+```ruby
+RSpec.describe CsvBuilder do
 end
 ```
 
@@ -564,7 +631,30 @@ end
 
 ---
 
-4. Strip $ from value attribute in formatter
+7 Format value as currency
+
+---
+
+```ruby
+RSpec.describe ProductDataFormatter do
+...
+    context "when the value has a dollar sign" do
+      it "strips the dollar sign" do
+        formatter = ProductDataFormatter.new
+        data = { release_date: "20190101", value: "$1230", active: "true"}
+
+        result = formatter.format(data)
+
+        expect(result).to eq(
+                    {
+                      release_date: Time.zone.parse("20190101"),
+                      value: 1230,
+                      active: true,
+                    },
+                  )
+      end
+    end
+```
 
 ---
 
@@ -592,265 +682,12 @@ end
 
 ---
 
-```ruby
-...
-    context "when the value has a dollar sign" do
-      it "strips the dollar sign" do
-        formatter = ProductDataFormatter.new
-        data = {
-          name: "name",
-          author: "author",
-          version: "0.0.0",
-          release_date: "20190101",
-          value: "$1230",
-          active: "true",
-        }
-
-        result = formatter.format(data)
-
-        expect(result).to eq(
-                    {
-                      name: "name",
-                      author: "author",
-                      version: "0.0.0",
-                      release_date: Time.zone.parse("20190101"),
-                      value: 1230,
-                      active: true,
-                    },
-                  )
-      end
-    end
-```
-
----
 
 ### New Requirement (Data validation)
 
 ---
 
-### Functional Path
-Let's go back a few steps
-
----
-
-### New Requirement (xlsx + csv)
-
----
-
-1. Introduce product importer service
-
----
-
-```ruby
-require "csv"
-
-class ProductDataImporter
-  def self.import(filepath)
-    new.import(filepath)
-  end
-
-  def import(filepath)
-    CSV.foreach(filepath, headers: true) do |row|
-      data = row.to_h
-      data["active"] = data["active"] == "true"
-      Product.create(data)
-    end
-  end
-end
-```
-
----
-
-```ruby
-RSpec.describe ProductDataImporter do
-  describe ".import" do
-    it "takes a file and creates product data from the data" do
-      filename = Rails.root.join("spec/fixtures/products.csv")
-      importer = ProductDataImporter.new
-
-      importer.import(filename)
-
-      expect(Product.count).to eq 3
-      last_product = Product.last
-      expect_product_to_match(
-        last_product,
-        "name_c",
-        "author_c",
-        Time.zone.parse("20190302"),
-        3000,
-        "0.53",
-        true,
-      )
-    end
-  end
-```
-
----
-
-2. Allow for users to upload either xlsx or csv
-
----
-
-```ruby
-require "csv"
-
-class ProductDataImporter
-  HEADERS = %w[name author release_date value version active].freeze
-
-  def self.import(filepath)
-    new.import(filepath)
-  end
-
-  def import(filepath)
-    case File.extname(filepath)
-    when ".csv"
-      import_csv(filepath)
-    when ".xlsx"
-      import_xlsx(filepath)
-    else
-      raise "Unknown file type"
-    end
-  end
-
-  private
-
-  def import_csv(filepath)
-    CSV.foreach(filepath, headers: true) do |row|
-      data = row.to_h
-      data["active"] = data["active"] == "true"
-      data = row.to_h.symbolize_keys
-      process_data(data)
-    end
-  end
-
-  def import_xlsx(filepath)
-    Xlsx.foreach(filepath) do |row|
-      cells = row.cells.map(&:value)
-      data = HEADERS.zip(cells).to_h.symbolize_keys
-      process_data(data)
-    end
-  end
-
-  def process_data(data)
-    parse_active(data).
-      then { |data| parse_release_date(data) }.
-      then { |data| Product.create(data) }
-    end
-  end
-
-  def parse_active(data)
-    data[:active] = !!data[:active]
-    data
-  end
-
-  def parse_release_date(data)
-    data[:release_date] = Time.zone.parse(data[:release_date].to_i.to_s)
-    data
-  end
-end
-```
-
----
-
-```ruby
-  ...
-    context "when provided a xlsx file" do
-      it "creates product data from the data" do
-        filename = Rails.root.join("spec/fixtures/products.xlsx")
-        importer = ProductDataImporter.new
-
-        importer.import(filename)
-
-        expect(Product.count).to eq 4
-        last_product = Product.last
-        expect_product_to_match(
-          last_product,
-          "factory_bot",
-          "thoughtbot",
-          DateTime.new(2008, 5, 28),
-          9001,
-          "5.0.2",
-          true,
-        )
-      end
-```
-
----
-
-### New Requirement (New client, new formats)
-
----
-
-3. Strip $ from value attribute in import data
-
----
-
-```ruby
-class ProductDataImporter
- ...
-
- def process_data(data)
-    parse_active(data).
-      then { |data| parse_release_date(data) }.
-      then { |data| parse_value(data) }.
-      then { |data| Product.create(data) }
-  end
-
-...
-
-  def parse_value(data)
-    value = data[:value].to_s
-    data[:value] = value.gsub(/^\$/, "").to_i
-    data
-  end
-end
-```
-
----
-
-### New Requirement (Data validation)
-
----
-
-### Recap
-
-![right, fit](./images/git_branches.png)
-
----
-
-![fit](./images/git_diss.png)
-
----
-
-## Retro / Action Items
-
----
-
-<br/>
-
-- Initial Requirement: Clients Import CSV
-- and then New Requirement: .xlsx + .csv
-- and then New Requirement: New Client, New Format
-- and then New Requirement: Data Validations
-
----
-
-### Git Churn
-
-Total diff
-OO: 25 files changed, 424 insertions(+), 49 deletions(-)
-FP: 10 files changed, 132 insertions(+), 37 deletions(-)
-
-Accumulated diff
-OO: 47 files changed, 625 insertions(+), 250 deletions(-)
-FP: 13 files changed, 152 insertions(+), 57 deletions(-)
-
----
-
-### Number of files added
-
-OO: 16
-FP: 4
+### And so on...
 
 ---
 
@@ -887,11 +724,339 @@ FP: 4
 
 ---
 
+### Functional Path
+
+---
+
+### New Requirement (xlsx + csv)
+
+---
+
+1 Introduce product importer service
+
+---
+
+[.code-highlight: all]
+[.code-highlight: 4]
+[.code-highlight: 5]
+[.code-highlight: 8]
+[.code-highlight: 10]
+[.code-highlight: 11]
+[.code-highlight: all]
+
+```ruby
+RSpec.describe ProductDataImporter do
+  describe ".import" do
+    it "takes a file and creates product data from the data" do
+      filename = Rails.root.join("spec/fixtures/products.csv")
+      importer = ProductDataImporter.new
+      expected_data = { ...data }
+
+      importer.import(filename)
+
+      expect(Product.count).to eq 3
+      expect_product_to_match(Product.last, expected_data)
+    end
+  end
+```
+
+---
+
+```ruby
+class ProductDataImporter
+  def self.import(filepath)
+    new.import(filepath)
+  end
+
+  def import(filepath)
+    CSV.foreach(filepath, headers: true) do |row|
+      data = row.to_h.symbolize_keys
+      data[:active] = data[:active] == "true"
+      data[:release_date] = Time.parse(data[:release_date]
+      Product.create(data)
+    end
+  end
+end
+```
+
+---
+
+2 Introduce data pipeline
+
+---
+
+spec stays the same
+
+---
+
+[.code-highlight: all]
+[.code-highlight: 6-10]
+[.code-highlight: 14-20]
+[.code-highlight: 22-25]
+[.code-highlight: 27-37]
+[.code-highlight: all]
+
+```ruby
+class ProductDataImporter
+  def self.import(filepath)
+    new.import(filepath)
+  end
+
+  def import(filepath)
+    read_file(filepath).
+      map { |data| process_data(data) }.
+      map { |data| Product.create(data) }
+  end
+
+  private
+
+  def read_file(filepath)
+    results = []
+    CSV.foreach(filepath, headers: true) do |row|
+      results << row.to_h.symbolize_keys
+    end
+    results
+  end
+
+  def process_data(data)
+    parse_active(data).
+      then { |data| parse_release_date(data) }
+  end
+
+  def process_active(data)
+    active = data[:active]
+    data[:active] = active == "true"
+    data
+  end
+
+  def process_release_date(data)
+    release_date = data[:release_date]
+    data[:release_date] = Time.zone.parse(release_date)
+    data
+  end
+end
+```
+
+---
+
+[.code-highlight: all]
+[.code-highlight: 4-8]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 7]
+[.code-highlight: 14-17]
+[.code-highlight: 15]
+[.code-highlight: 16]
+[.code-highlight: all]
+
+```ruby
+class ProductDataImporter
+  ...
+
+  def import(filepath)
+    read_file(filepath).
+      map { |data| process_data(data) }.
+      map { |data| Product.create(data) }
+  end
+
+  private
+
+  ...
+
+  def process_data(data)
+    parse_active(data).
+      then { |data| parse_release_date(data) }
+  end
+
+  ...
+
+end
+```
+
+---
+
+2 Allow for users to upload either xlsx or csv
+
+---
+
+[.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 5]
+
+```ruby
+RSpec.describe ProductDataImporter do
+  ...
+    context "when provided a xlsx file" do
+      it "creates product data from the data" do
+        filename = Rails.root.join("spec/fixtures/products.xlsx")
+        importer = ProductDataImporter.new
+        expected_data = { ...data }
+
+        importer.import(filename)
+
+        expect(Product.count).to eq 4
+        expect_product_to_match(Product.last, expected_data)
+      end
+```
+
+---
+
+```ruby
+class ProductDataImporter
+  ...
+
+  def import(filepath)
+    read_file(filepath).
+      map { |data| process_data(data) }.
+      map { |data| Product.create(data) }
+  end
+
+  private
+
+  def read_file(filepath)
+    case File.extname(filepath)
+    when ".csv"
+      read_csv(filepath)
+    when ".xlsx"
+      read_xlsx(filepath)
+    else
+      raise "Unknown file type"
+    end
+  end
+
+  def read_csv(filepath)
+    results = []
+    CSV.foreach(filepath, headers: true) do |row|
+      results << row.to_h.symbolize_keys
+    end
+    results
+  end
+
+  def read_xlsx(filepath)
+    results = []
+    foreach_xlsx(filepath) do |row|
+      cells = row.cells.map(&:value)
+      data = HEADERS.zip(cells).to_h.symbolize_keys
+      results << data
+    end
+    results
+  end
+
+  ...
+end
+```
+
+---
+
+### New Requirement (New client, new formats)
+
+---
+
+3 Format value as currency
+
+---
+
+Specs don't change, just update the fixture to have the new format.
+
+---
+
+[.code-highlight: all]
+[.code-highlight: 7]
+[.code-highlight: 12-16]
+[.code-highlight: all]
+
+```ruby
+class ProductDataImporter
+ ...
+
+ def process_data(data)
+    parse_active(data).
+      then { |data| parse_release_date(data) }.
+      then { |data| parse_value(data) }
+  end
+
+...
+
+  def parse_value(data)
+    value = data[:value].to_s
+    data[:value] = value.gsub(/^\$/, "").to_i
+    data
+  end
+end
+```
+
+---
+
+### New Requirement (Data validation)
+
+---
+
+### Recap
+
+- Initial Requirement: Clients Import CSV
+- *and then* New Requirement: .xlsx + .csv
+- *and then* New Requirement: New Client, New Format
+- *and then* New Requirement: Data Validations
+
+---
+
+## Benefits
+of choosing the right paradigm for the task
+
+1. Easier to Understand
+2. Less Code
+3. Easier to Test and Maintain
+4. Higher Development Velocity
+
+^ This is why your life may be better if you choose these approaches
+
+---
+
+### 1. Easier to Understand
+
+---
+
 ```
 - app
+  - models
+    - csv_builder.rb
+    - csv_importer.rb
+    - file_importer.rb
+    - product.rb
+    - product_data_builder.rb
+    - product_data_formatter.rb
+    - product_data_importer.rb
+    - xlsx_builder.rb
+    - xlsx_importer.rb
+```
+
+---
+
+```
+- spec
+  - models
+    - csv_builder_spec.rb
+    - csv_importer_spec.rb
+    - file_importer_spec.rb
+    - product_spec.rb
+    - product_data_builder_spec.rb
+    - product_data_formatter_spec.rb
+    - product_data_importer_spec.rb
+    - xlsx_builder_spec.rb
+    - xlsx_importer_spec.rb
+```
+
+---
+
+```
+- app
+  - models
+    - product.rb
   - services
     - product_data_importer.rb
 ```
+
+---
 
 ```
 - spec
@@ -904,50 +1069,69 @@ FP: 4
 
 ---
 
-### Number of APIs
+### 2. Less Code
 
+Total Diff
+OO: 25 files, 424 (+), 49 (-)
+FP: 10 files, 132 (+), 37 (-)
+
+Accumulated Diff
+OO: 47 files, 625 (+), 250 (-)
+FP: 13 files, 152 (+), 57 (-)
+
+---
+
+### 3. Easier to Test / Maintain
+
+Number of Public APIs added:
 OO: 8
 FP: 1
 
 ---
 
-### Dev Time
+### 4. Higher Development Velocity
 
-OO - about a work day
-FP - about an hour
-
----
-
-### Take Away - Code Quality
-
----
-
-## Benefits
-of choosing the right paradigm for the task
-
-- Less Code
-- Easier to Test
-- More Flexible
-- More Honest
-
-^ This is why your life may be better if you choose these approaches
+Dev Time
+OO: about a work day
+FP: about an hour
 
 ---
 
 ## Paradigm Smells
 Using OO for a task that lends itself to FP
 
-- divergent changes / shotgun surgery
-- lots of 'something-er' classes
-- UML is a linked list
+1. Lots of 'Something-er' Classes
+2. UML is a Linked List
 
 ---
 
-![50%, left](./images/03.png)
+### 1. Lots of 'Something-er' Classes
+
+```
+- app
+  - models
+    - csv_builder.rb
+    - csv_importer.rb
+    - file_importer.rb
+    - product.rb
+    - product_data_builder.rb
+    - product_data_formatter.rb
+    - product_data_importer.rb
+    - xlsx_builder.rb
+    - xlsx_importer.rb
+```
 
 ---
 
-### Take Aways - Process
+### 2. UML is a Linked List
+
+<br />
+
+![original, 100%](./images/03.png)
+
+---
+
+## Take Aways
 
 ---
 
@@ -974,7 +1158,7 @@ style, but it would be a mistake to try to do everything in a functional style.
 <br/>
 
 ### Be Conscientious
-of buisness goals before starting work.
+of business goals before starting work.
 
 ^ It's only helpful to pick one paradigm over the other when we know something is
 is likely to change and in what way it will change. If you're not considering
@@ -1001,14 +1185,7 @@ the bigger picture, you're at risk of choosing poorly.
 ---
 
 ### Repo:
-
-Code:
-
 johnschoeman/sprinkles-of-functional-programming-app
-
-Slides:
-
-johnschoeman/sprinkles-of-functional-programming
 
 ---
 
