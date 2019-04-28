@@ -40,7 +40,7 @@ I work at
 <br/>
 
 ### Ruby
-is a multi-paradigm language
+is a general purpose language
 
 ^ it is excellent with both object oriented programming and functional
 programming. the developer gets to choose
@@ -160,7 +160,6 @@ is perhaps a better distinction.
 - Data transformations
 - Data aggregates
 - Data streaming
-- Data templating
 
 ---
 
@@ -233,7 +232,10 @@ Allow users to upload a csv
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
+
 RSpec.describe "User uploads a file of produce data" do
   scenario "by visiting the root page and clicking 'upload file'" do
     visit root_path
@@ -248,6 +250,8 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 class ImportsController < ApplicationController
   def create
@@ -258,6 +262,8 @@ end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
   describe ".import" do
@@ -274,6 +280,8 @@ end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 require "csv"
@@ -297,10 +305,9 @@ end
 ```
 - app
   - controllers
-    - imports_controller.rb
+     imports_controller.rb
   - models
     - product.rb
-
 ```
 
 ---
@@ -335,13 +342,25 @@ csv + xlsx
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 RSpec.describe ProductDataImporter
-  ...
+ it "saves every row in the file as new product" do
+    require "csv"
+    filepath = stub_csv
+    importer = ProductDataImporter.new(filepath)
+
+    importer.import
+
+    expect(Product.count).to eq 3
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 class ProductDataImporter
@@ -363,6 +382,8 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 class ImportsController < ApplicationController
   def create
@@ -379,13 +400,26 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 Rspec.describe ProductDataFormatter
-  ...
+  it "builds a data hash from a csv_row for the product" do
+    headers = %w[name author version release_date value active]
+    fields = %w[name_a author_a 1.10.3 20190101 100 true]
+    csv_row = CSV::Row.new(headers, fields)
+    formatter = ProductDataFormatter.new
+
+    result = formatter.build(csv_row)
+
+    expect(result).to eq(expected_results)
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 class ProductDataFormatter
@@ -405,17 +439,32 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 Rspec.describe ProductDataImporter
- ...
+  ...
+  context "the file is a xlsx" do
+    it "saves every row in the file as new product" do
+      filename = "products.xlsx"
+      stub_xlsx(filename)
+
+      formatter = ProductDataFormatter.new
+      importer = ProductDataImporter.new(filename, formatter)
+
+      importer.import
+
+      expect(Product.count).to eq 3
+    end
+  end
 end
 ```
 
 ---
 
-```ruby
-require "csv"
+[.code-highlight: all]
 
+```ruby
 class ProductDataImporter
   attr_reader :filepath, :formatter
 
@@ -467,16 +516,30 @@ New client, new formats
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 RSpec.describe CsvImporter
+  describe "#import" do
+    it "saves every row in the file as new product" do
+      filename = "products.csv"
+      stub_csv(filename)
+      formatter = ProductDataFormatter.new
+      importer = CsvImporter.new(filename, formatter)
+
+      importer.import
+
+      expect(Product.count).to eq 3
+    end
+  end
 end
 ```
 
 ---
 
-```ruby
-require "csv"
+[.code-highlight: all]
 
+```ruby
 class CsvImporter
   attr_reader :filepath, :formatter
 
@@ -496,12 +559,29 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 RSpec.describe XlsxImporter
+  describe "#import" do
+    it "saves every row in the file as new product" do
+      filename = "products.xlsx"
+      stub_xlsx(filename)
+
+      formatter = ProductDataFormatter.new
+      importer = XlsxImporter.new(filename, formatter)
+
+      importer.import
+
+      expect(Product.count).to eq 3
+    end
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 class XlsxImporter
@@ -527,12 +607,23 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 RSpec.describe FileImporter
+  describe "#import" do
+    it "raise if called" do
+      importer = FileImporter.new("filepath", double("formatter"))
+
+      expect { importer.import }.to raise_error("Must overwrite method")
+    end
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 class FileImporter
@@ -569,12 +660,24 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 RSpec.describe ProductDataBuilder
+  describe "#build" do
+    it "raises" do
+      formatter = double
+      builder = ProductDataBuilder.new(formatter)
+
+      expect { builder.build }.to raise_error("Must override method")
+    end
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 class ProductDataBuilder
@@ -592,12 +695,68 @@ end
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
-RSpec.describe XlsxBuilder do
+RSpec.describe CsvBuilder do
+  describe "#build" do
+    context "when given a csv_row of product data" do
+      it "creates a hash of the product data" do
+        headers = %w[name author version release_date value active]
+        fields = %w[name_a author_a 1.10.3 20190101 100 true]
+        csv_row = CSV::Row.new(headers, fields)
+        formatter = ProductDataFormatter.new
+        builder = CsvBuilder.new(formatter)
+
+        result = builder.build(csv_row)
+
+        expect(result).to eq({ ...data })
+      end
+    end
+  end
 end
 ```
 
 ---
+
+[.code-highlight: all]
+
+```ruby
+class CsvBuilder < ProductDataBuilder
+  def build(csv_row)
+    data = csv_row.to_h.symbolize_keys
+    formatter.format(data)
+  end
+end
+```
+
+---
+
+[.code-highlight: all]
+
+```ruby
+RSpec.describe XlsxBuilder do
+  describe "#build" do
+    context "when given a xlsx_row of product data" do
+      it "creates a hash of the product data" do
+        headers = %w[name author version release_date value active]
+        fields = %w[name_a author_a 1.10.3 20190101 100 true]
+        xslx_row = stub_xslx_row(headers, fields)
+        formatter = ProductDataFormatter.new
+        builder = CsvBuilder.new(formatter)
+
+        result = builder.build(xlsx_row)
+
+        expect(result).to eq({ ...data })
+      end
+    end
+  end
+end
+```
+
+---
+
+[.code-highlight: all]
 
 ```ruby
 class XlsxBuilder < ProductDataBuilder
@@ -613,27 +772,11 @@ end
 
 ---
 
-```ruby
-RSpec.describe CsvBuilder do
-end
-```
-
----
-
-```ruby
-class CsvBuilder < ProductDataBuilder
-  def build(csv_row)
-    data = csv_row.to_h.symbolize_keys
-    formatter.format(data)
-  end
-end
-```
-
----
-
 7 Format value as currency
 
 ---
+
+[.code-highlight: all]
 
 ```ruby
 RSpec.describe ProductDataFormatter do
@@ -641,49 +784,35 @@ RSpec.describe ProductDataFormatter do
     context "when the value has a dollar sign" do
       it "strips the dollar sign" do
         formatter = ProductDataFormatter.new
-        data = { release_date: "20190101", value: "$1230", active: "true"}
+        data = { value: "$1230" }
 
         result = formatter.format(data)
 
-        expect(result).to eq(
-                    {
-                      release_date: Time.zone.parse("20190101"),
-                      value: 1230,
-                      active: true,
-                    },
-                  )
+        expect(result).to eq({ value: 1230 })
       end
     end
 ```
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 class ProductDataFormatter
   def format(data)
     data[:active] = data[:active] == "true"
     data[:release_date] = parse_release_date(data[:release_date])
-    data[:value] = data[:value].to_i
     data[:value] = parse_value(data[:value])
     data
   end
 
-  private
-
-  def parse_release_date(input)
-   ...
-  end
+  ...
 
   def parse_value(input)
     input.to_s.gsub(/^\$/, "").to_i
   end
 end
 ```
-
----
-
-
-### New Requirement (Data validation)
 
 ---
 
@@ -762,6 +891,8 @@ RSpec.describe ProductDataImporter do
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 class ProductDataImporter
   def self.import(filepath)
@@ -785,15 +916,9 @@ end
 
 ---
 
-spec stays the same
-
----
-
 [.code-highlight: all]
 [.code-highlight: 6-10]
-[.code-highlight: 14-20]
-[.code-highlight: 22-25]
-[.code-highlight: 27-37]
+[.code-highlight: 12-37]
 [.code-highlight: all]
 
 ```ruby
@@ -819,8 +944,8 @@ class ProductDataImporter
   end
 
   def process_data(data)
-    parse_active(data).
-      then { |data| parse_release_date(data) }
+    process_active(data).
+      then { |data| process_release_date(data) }
   end
 
   def process_active(data)
@@ -901,6 +1026,8 @@ RSpec.describe ProductDataImporter do
 
 ---
 
+[.code-highlight: all]
+
 ```ruby
 class ProductDataImporter
   ...
@@ -919,17 +1046,7 @@ class ProductDataImporter
       read_csv(filepath)
     when ".xlsx"
       read_xlsx(filepath)
-    else
-      raise "Unknown file type"
     end
-  end
-
-  def read_csv(filepath)
-    results = []
-    CSV.foreach(filepath, headers: true) do |row|
-      results << row.to_h.symbolize_keys
-    end
-    results
   end
 
   def read_xlsx(filepath)
@@ -956,7 +1073,12 @@ end
 
 ---
 
-Specs don't change, just update the fixture to have the new format.
+```
+- spec
+  - fixtures
+    - products.csv
+    - products.xlsx
+```
 
 ---
 
@@ -970,14 +1092,14 @@ class ProductDataImporter
  ...
 
  def process_data(data)
-    parse_active(data).
-      then { |data| parse_release_date(data) }.
-      then { |data| parse_value(data) }
+    process_active(data).
+      then { |data| process_release_date(data) }.
+      then { |data| process_value(data) }
   end
 
 ...
 
-  def parse_value(data)
+  def process_value(data)
     value = data[:value].to_s
     data[:value] = value.gsub(/^\$/, "").to_i
     data
@@ -991,12 +1113,44 @@ end
 
 ---
 
+```ruby
+context "when given invalid data" do
+  it "doesn't create product records" do
+    filename = Rails.root.join("spec/fixtures/products_with_invalid_data.xlsx")
+    importer = ProductDataImporter.new
+
+    importer.import(filename)
+
+    expect(Product.count).to eq 0
+  end
+end
+```
+
+---
+
+```ruby
+class ProductDataImporter
+ ...
+
+ def process_data(data)
+      then { |data| process_active(data) }.
+      then { |data| process_release_date(data) }.
+      then { |data| process_value(data) }
+  end
+
+  ...
+end
+```
+
+---
+
 ### Recap
 
 - Initial Requirement: Clients Import CSV
 - *and then* New Requirement: .xlsx + .csv
 - *and then* New Requirement: New Client, New Format
-- *and then* New Requirement: Data Validations
+- *and then* a New Requirement
+- and so on...
 
 ---
 
@@ -1166,13 +1320,12 @@ the bigger picture, you're at risk of choosing poorly.
 
 ---
 
-## Action Items
+## Action Item
+### Understand your task before you choose style.
 
-1. Understand your task before you choose style
-2. Ask what do you expect will change?
-3. Data or Behaviour?
-4. if Data, consider a functional style
-5. if Behaviour, consider a object oriented style
+#### Ask what do you expect will change: Data or Behaviour?
+-  if Data, consider a functional style
+-  if Behaviour, consider a object oriented style
 
 ---
 
