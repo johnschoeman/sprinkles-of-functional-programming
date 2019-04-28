@@ -228,11 +228,22 @@ Allow users to upload a csv
 ---
 
 ### Initial Requirement
-#### Code
+
+---
+
+#### Commit 0:
+
+```
+0 Allow users to upload csv of products
+```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 8]
 
 ```ruby
 
@@ -251,6 +262,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
 
 ```ruby
 class ImportsController < ApplicationController
@@ -264,6 +276,9 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4]
+[.code-highlight: 6]
+[.code-highlight: 8]
 
 ```ruby
   describe ".import" do
@@ -282,18 +297,17 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3-9]
 
 ```ruby
-require "csv"
-
 class Product < ApplicationRecord
   validates :name, presence: true
 
   def self.import(file_path)
     CSV.foreach(file_path, headers: true) do |row|
-      data = row.to_h
-      data["active"] = data["active"] == "true"
-      data["release_date"] = Time.zone.parse(data["release_date"])
+      data = row.to_h.symbolize_keys
+      data[:title] = data[:title].titleize
+      data[:release_date] = Time.zone.parse(data[:release_date])
       create(data)
     end
   end
@@ -338,16 +352,26 @@ csv + xlsx
 
 ---
 
+[.code-highlight: 2]
+
+#### Commit 1:
+
+```
+0 Allow users to upload csv of products
 1 Introduce product data importer
+```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 4]
+[.code-highlight: 6]
+[.code-highlight: 8]
 
 ```ruby
 RSpec.describe ProductDataImporter
  it "saves every row in the file as new product" do
-    require "csv"
     filepath = stub_csv
     importer = ProductDataImporter.new(filepath)
 
@@ -361,6 +385,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-6]
+[.code-highlight: 18-13]
 
 ```ruby
 class ProductDataImporter
@@ -372,8 +398,9 @@ class ProductDataImporter
 
   def import
     CSV.foreach(filepath, headers: true) do |row|
-      data = row.to_h
-      data["active"] = data["active"] == "true"
+      data = row.to_h.symbolize_keys
+      data[:title] = data[:title].titleize
+      data[:release_date] = Time.zone.parse(data[:release_date])
       Product.create(data)
     end
   end
@@ -396,7 +423,15 @@ end
 
 ---
 
+[.code-highlight: 3]
+
+### Commit 2:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
 2 Introduce product data formatter
+```
 
 ---
 
@@ -425,9 +460,8 @@ end
 class ProductDataFormatter
   def build(csv_row)
     data = csv_row.to_h.symbolize_keys
-    data[:active] = data[:active] == "true"
+    data[:title] = data[:title].titleize
     data[:release_date] = Time.zone.parse(data[:release_date])
-    data[:value] = data[:value].to_i
     data
   end
 end
@@ -435,7 +469,16 @@ end
 
 ---
 
+[.code-highlight: 4]
+
+#### Commit 3:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
+2 Introduce product data formatter
 3 Allow .xlsx format for importer
+```
 
 ---
 
@@ -463,6 +506,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-8]
 
 ```ruby
 class ProductDataImporter
@@ -512,7 +556,17 @@ New client, new formats
 
 ---
 
+[.code-highlight: 5]
+
+#### Commit 4:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
+2 Introduce product data formatter
+3 Allow .xlsx format for importer
 4 Refactor importer
+```
 
 ---
 
@@ -603,7 +657,18 @@ end
 
 ---
 
+[.code-highlight: 6]
+
+#### Commit 5:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
+2 Introduce product data formatter
+3 Allow .xlsx format for importer
+4 Refactor importer
 5 introduce file importer
+```
 
 ---
 
@@ -656,7 +721,19 @@ end
 
 ---
 
+[.code-highlight: 7]
+
+#### Commit 6:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
+2 Introduce product data formatter
+3 Allow .xlsx format for importer
+4 Refactor importer
+5 introduce file importer
 6 introduce data builder class
+```
 
 ---
 
@@ -772,19 +849,38 @@ end
 
 ---
 
-7 Format value as currency
+[.code-highlight: 8]
+
+#### Commit 7:
+
+```
+0 Allow users to upload csv of products
+1 Introduce product data importer
+2 Introduce product data formatter
+3 Allow .xlsx format for importer
+4 Refactor importer
+5 introduce file importer
+6 introduce data builder class
+7 Format currency data from csv
+```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 4]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 8]
+[.code-highlight: 10]
 
 ```ruby
 RSpec.describe ProductDataFormatter do
 ...
-    context "when the value has a dollar sign" do
+    context "when the currency has a dollar sign" do
       it "strips the dollar sign" do
-        formatter = ProductDataFormatter.new
         data = { value: "$1230" }
+        formatter = ProductDataFormatter.new
 
         result = formatter.format(data)
 
@@ -800,15 +896,15 @@ RSpec.describe ProductDataFormatter do
 ```ruby
 class ProductDataFormatter
   def format(data)
-    data[:active] = data[:active] == "true"
-    data[:release_date] = parse_release_date(data[:release_date])
-    data[:value] = parse_value(data[:value])
+    data[:title] = format_title(data[:title])
+    data[:release_date] = format_date(data[:release_date])
+    data[:value] = format_currency(data[:value])
     data
   end
 
   ...
 
-  def parse_value(input)
+  def format_currency(input)
     input.to_s.gsub(/^\$/, "").to_i
   end
 end
@@ -861,11 +957,12 @@ end
 
 ---
 
-[.code-highlight: all]
+[.code-highlight: 2]
 
-### Commit 1:
+#### Commit 1:
 
 ```
+0 Allow users to upload csv of products
 1 Introduce product importer service
 ```
 
@@ -918,11 +1015,12 @@ end
 
 ---
 
-[.code-highlight: 2]
+[.code-highlight: 1]
 
-### Commit 2:
+#### Commit 2:
 
 ```
+0 Allow users to upload csv of products
 1 Introduce product importer service
 2 Introduce data pipeline
 ```
@@ -1013,11 +1111,12 @@ end
 
 ---
 
-[.code-highlight: 3]
+[.code-highlight: 4]
 
-### Commit 3:
+#### Commit 3:
 
 ```
+0 Allow users to upload csv of products
 1 Introduce product importer service
 2 Introduce data pipeline
 3 Allow for users to upload either xlsx or csv
@@ -1090,11 +1189,12 @@ end
 
 ---
 
-[.code-highlight: 4]
+[.code-highlight: 5]
 
-### Commit 4:
+#### Commit 4:
 
 ```
+0 Allow users to upload csv of products
 1 Introduce product importer service
 2 Introduce data pipeline
 3 Allow for users to upload either xlsx or csv
@@ -1127,7 +1227,7 @@ class ProductDataImporter
       then { |data| process_currency(data) }
   end
 
-...
+  ...
 
   def process_currency(data)
     value = data[:value].to_s
@@ -1136,6 +1236,8 @@ class ProductDataImporter
   end
 end
 ```
+
+---
 
 ### Recap
 
@@ -1163,6 +1265,9 @@ of choosing the right paradigm for the task
 
 ---
 
+[.code-highlight: all]
+[.code-highlight: 3-5, 7-11]
+
 ```
 - app
   - models
@@ -1178,6 +1283,9 @@ of choosing the right paradigm for the task
 ```
 
 ---
+
+[.code-highlight: all]
+[.code-highlight: 3-5, 7-11]
 
 ```
 - spec
@@ -1195,6 +1303,9 @@ of choosing the right paradigm for the task
 
 ---
 
+[.code-highlight: all]
+[.code-highlight: 5]
+
 ```
 - app
   - models
@@ -1204,6 +1315,9 @@ of choosing the right paradigm for the task
 ```
 
 ---
+
+[.code-highlight: all]
+[.code-highlight: 3, 4, 6]
 
 ```
 - spec
@@ -1300,6 +1414,9 @@ and object, thats our models, sevice objects, controllers, but sometimes we have
 other task that needs to be done which would lend themselves to a funcitonal
 style, but it would be a mistake to try to do everything in a functional style.
 
+^ you don't have to get super in to functional programming a few basics will get
+you far
+
 ---
 
 <br/>
@@ -1313,12 +1430,13 @@ the bigger picture, you're at risk of choosing poorly.
 
 ---
 
-### Action Item: Understand your task before you choose style.
+### Action Item
 
-Ask what do you expect will change: Data or Behaviour?
+Ask how you expect requirements will change:
+Data or Behaviour?
 
 -  if Data, consider a functional style
--  if Behaviour, consider a object oriented style
+-  if Behavior, consider a object oriented style
 
 ---
 
@@ -1327,6 +1445,16 @@ Ask what do you expect will change: Data or Behaviour?
 - Given Ruby is a general purpose language.
 - And different paradigms lend themselves to different tasks
 - We should choose our style based off of our task
+
+---
+
+### FP learning resources
+
+- Destroy All Software
+- thoughtbot.com/blog 
+- https://jasoncharnes.com/functional-programming-ruby/
+- Full Stack Fest 2015: Blending Functional and OO Programming in Ruby, by Piotr
+  Solnica: https://www.youtube.com/watch?v=rMxurF4oqsc
 
 ---
 
