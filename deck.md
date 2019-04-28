@@ -861,7 +861,13 @@ end
 
 ---
 
+[.code-highlight: all]
+
+### Commit 1:
+
+```
 1 Introduce product importer service
+```
 
 ---
 
@@ -912,7 +918,14 @@ end
 
 ---
 
+[.code-highlight: 2]
+
+### Commit 2:
+
+```
+1 Introduce product importer service
 2 Introduce data pipeline
+```
 
 ---
 
@@ -944,17 +957,17 @@ class ProductDataImporter
   end
 
   def process_data(data)
-    process_active(data).
-      then { |data| process_release_date(data) }
+    process_date(data).
+      then { |data| process_title(data) }
   end
 
-  def process_active(data)
-    active = data[:active]
-    data[:active] = active == "true"
+  def process_title(data)
+    title = data[:title]
+    data[:title] = title.titleize
     data
   end
 
-  def process_release_date(data)
+  def process_date(data)
     release_date = data[:release_date]
     data[:release_date] = Time.zone.parse(release_date)
     data
@@ -989,8 +1002,8 @@ class ProductDataImporter
   ...
 
   def process_data(data)
-    parse_active(data).
-      then { |data| parse_release_date(data) }
+    process_date(data).
+      then { |data| process_title(data) }
   end
 
   ...
@@ -1000,7 +1013,15 @@ end
 
 ---
 
-2 Allow for users to upload either xlsx or csv
+[.code-highlight: 3]
+
+### Commit 3:
+
+```
+1 Introduce product importer service
+2 Introduce data pipeline
+3 Allow for users to upload either xlsx or csv
+```
 
 ---
 
@@ -1069,7 +1090,16 @@ end
 
 ---
 
-3 Format value as currency
+[.code-highlight: 4]
+
+### Commit 4:
+
+```
+1 Introduce product importer service
+2 Introduce data pipeline
+3 Allow for users to upload either xlsx or csv
+4 Format currency data from csv
+```
 
 ---
 
@@ -1092,57 +1122,20 @@ class ProductDataImporter
  ...
 
  def process_data(data)
-    process_active(data).
-      then { |data| process_release_date(data) }.
-      then { |data| process_value(data) }
+    process_date(data).
+      then { |data| process_description(data) }.
+      then { |data| process_currency(data) }
   end
 
 ...
 
-  def process_value(data)
+  def process_currency(data)
     value = data[:value].to_s
     data[:value] = value.gsub(/^\$/, "").to_i
     data
   end
 end
 ```
-
----
-
-### New Requirement (Data validation)
-
----
-
-```ruby
-context "when given invalid data" do
-  it "doesn't create product records" do
-    filename = Rails.root.join("spec/fixtures/products_with_invalid_data.xlsx")
-    importer = ProductDataImporter.new
-
-    importer.import(filename)
-
-    expect(Product.count).to eq 0
-  end
-end
-```
-
----
-
-```ruby
-class ProductDataImporter
- ...
-
- def process_data(data)
-      then { |data| process_active(data) }.
-      then { |data| process_release_date(data) }.
-      then { |data| process_value(data) }
-  end
-
-  ...
-end
-```
-
----
 
 ### Recap
 
@@ -1320,10 +1313,10 @@ the bigger picture, you're at risk of choosing poorly.
 
 ---
 
-## Action Item
-### Understand your task before you choose style.
+### Action Item: Understand your task before you choose style.
 
-#### Ask what do you expect will change: Data or Behaviour?
+Ask what do you expect will change: Data or Behaviour?
+
 -  if Data, consider a functional style
 -  if Behaviour, consider a object oriented style
 
