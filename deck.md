@@ -1362,23 +1362,26 @@ of choosing the right paradigm for the task
 
 ### 2. Less Code
 
-[Graph Goes Here]
+---
 
-Total Diff
-OO: 25 files, 424 (+), 49 (-)
-FP: 10 files, 132 (+), 37 (-)
+#### Total Diff
 
-Accumulated Diff
-OO: 47 files, 625 (+), 250 (-)
-FP: 13 files, 152 (+), 57 (-)
+![original, 80%](./images/total_diff.png)
+
+---
+
+#### Accumulated Diff
+
+![original, 80%](./images/accum_diff.png)
 
 ---
 
 ### 3. Easier to Test / Maintain
 
-[Graph Goes Here]
+---
 
-Number of Public APIs added:
+#### Public APIs added:
+
 OO: 8
 FP: 1
 
@@ -1386,11 +1389,11 @@ FP: 1
 
 ### 4. Higher Development Velocity
 
-[Graph Goes Here]
+---
 
-Dev Time
-OO: about a work day
-FP: about an hour
+#### Dev Time
+
+![original, 80%](./images/hours_diff.png)
 
 ---
 
