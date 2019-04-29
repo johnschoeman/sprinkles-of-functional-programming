@@ -4,7 +4,7 @@ footer: johnschoeman
 
 ---
 
-Hello I'm John
+Hello, I'm John
 I work at
 
 ![original, 100%](./images/tb_horizontal_default.png)
@@ -16,24 +16,27 @@ I work at
 <br/>
 
 - Github: /johnschoeman
+- Mastadon: johnschoeman@technology.social
 - Twitter: @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
+
+^ Dont ramble on the joke
 
 ---
 
 ### Roadmap
 
-- Key Thesis
+- Thesis
 - FP and OO
 - A Recommendation
 - A Story with Some Code
-- Retro / Action Items
+- Recap / Action Items
 - Questions
 
 ^ not here to teach functional programming specifically.
 
 ---
 
-## Key Thesis
+## Thesis
 
 ---
 
@@ -67,7 +70,7 @@ yield_self / then
 
 <br/>
 
-### Different Paradigms
+### Different paradigms
 lend themselves to different tasks
 
 ^ some times we want to model some real world interactions, create things that
@@ -121,7 +124,7 @@ prefer *data pipelines* and *folds*.
 
 <br/>
 
-### Objects and Functions
+### Objects and functions
 are a useful distinction.
 
 ^ explain what you mean by fp
@@ -140,14 +143,14 @@ is perhaps a better distinction.
 
 ---
 
- | *Add new method* | *Add new Data*
+ | *New Method* | *New Data*
 ---|:---|:---
 *OO* | Existing code unchanged | Existing code changed
 *FP* | Existing code changed | Existing code unchanged
 
 ---
 
-### OO Typical cases
+### OO Typical Cases
 
 - Resource modeling
 - Behaviour modeling
@@ -155,7 +158,7 @@ is perhaps a better distinction.
 
 ---
 
-### FP Typical cases
+### FP Typical Cases
 
 - Data transformations
 - Data aggregates
@@ -231,10 +234,10 @@ Allow users to upload a csv
 
 ---
 
-#### Commit 0:
+#### Commit 0
 
 ```
-0 Allow users to upload csv of products
+Allow users to upload csv of products
 ```
 
 ---
@@ -354,11 +357,11 @@ csv + xlsx
 
 [.code-highlight: 2]
 
-#### Commit 1:
+#### Commit 1
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
+Allow users to upload csv of products
+Introduce product data importer
 ```
 
 ---
@@ -410,6 +413,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 4]
 
 ```ruby
 class ImportsController < ApplicationController
@@ -425,17 +430,21 @@ end
 
 [.code-highlight: 3]
 
-### Commit 2:
+#### Commit 2
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
 ```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 2]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 8]
 
 ```ruby
 Rspec.describe ProductDataFormatter
@@ -455,6 +464,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 2-7]
 
 ```ruby
 class ProductDataFormatter
@@ -471,22 +481,22 @@ end
 
 [.code-highlight: 4]
 
-#### Commit 3:
+#### Commit 3
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
-3 Allow .xlsx format for importer
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
+Allow .xlsx format for importer
 ```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
 
 ```ruby
 Rspec.describe ProductDataImporter
-  ...
   context "the file is a xlsx" do
     it "saves every row in the file as new product" do
       filename = "products.xlsx"
@@ -507,6 +517,8 @@ end
 
 [.code-highlight: all]
 [.code-highlight: 4-8]
+[.code-highlight: 9-15]
+[.code-highlight: 27-32]
 
 ```ruby
 class ProductDataImporter
@@ -552,25 +564,26 @@ end
 ---
 
 ### New Requirement
-New client, new formats
+New currency format $
 
 ---
 
 [.code-highlight: 5]
 
-#### Commit 4:
+#### Commit 4
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
-3 Allow .xlsx format for importer
-4 Refactor importer
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
+Allow .xlsx format for importer
+Refactor importer
 ```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4]
 
 ```ruby
 RSpec.describe CsvImporter
@@ -592,6 +605,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-8]
 
 ```ruby
 class CsvImporter
@@ -614,6 +628,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
 
 ```ruby
 RSpec.describe XlsxImporter
@@ -636,6 +651,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-8]
 
 ```ruby
 class XlsxImporter
@@ -659,20 +675,21 @@ end
 
 [.code-highlight: 6]
 
-#### Commit 5:
+#### Commit 5
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
-3 Allow .xlsx format for importer
-4 Refactor importer
-5 introduce file importer
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
+Allow .xlsx format for importer
+Refactor importer
+Introduce file importer
 ```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
 
 ```ruby
 RSpec.describe FileImporter
@@ -689,6 +706,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-8]
+[.code-highlight: 10-12]
 
 ```ruby
 class FileImporter
@@ -723,21 +742,22 @@ end
 
 [.code-highlight: 7]
 
-#### Commit 6:
+#### Commit 6
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
-3 Allow .xlsx format for importer
-4 Refactor importer
-5 introduce file importer
-6 introduce data builder class
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
+Allow .xlsx format for importer
+Refactor importer
+Introduce file importer
+Introduce data builder class
 ```
 
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4]
 
 ```ruby
 RSpec.describe ProductDataBuilder
@@ -755,6 +775,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-6]
+[.code-highlight: 8-10]
 
 ```ruby
 class ProductDataBuilder
@@ -773,6 +795,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4]
+[.code-highlight: 5]
 
 ```ruby
 RSpec.describe CsvBuilder do
@@ -797,6 +821,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 2-5]
 
 ```ruby
 class CsvBuilder < ProductDataBuilder
@@ -810,6 +835,8 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 3]
+[.code-highlight: 4]
 
 ```ruby
 RSpec.describe XlsxBuilder do
@@ -834,6 +861,7 @@ end
 ---
 
 [.code-highlight: all]
+[.code-highlight: 4-7]
 
 ```ruby
 class XlsxBuilder < ProductDataBuilder
@@ -851,17 +879,17 @@ end
 
 [.code-highlight: 8]
 
-#### Commit 7:
+#### Commit 7
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product data importer
-2 Introduce product data formatter
-3 Allow .xlsx format for importer
-4 Refactor importer
-5 introduce file importer
-6 introduce data builder class
-7 Format currency data from csv
+Allow users to upload csv of products
+Introduce product data importer
+Introduce product data formatter
+Allow .xlsx format for importer
+Refactor importer
+Introduce file importer
+Introduce data builder class
+Format currency data from csv
 ```
 
 ---
@@ -892,6 +920,9 @@ RSpec.describe ProductDataFormatter do
 ---
 
 [.code-highlight: all]
+[.code-highlight: 2-6]
+[.code-highlight: 4]
+[.code-highlight: 10-12]
 
 ```ruby
 class ProductDataFormatter
@@ -912,7 +943,7 @@ end
 
 ---
 
-### And so on...
+### New Requirement...
 
 ---
 
@@ -959,11 +990,11 @@ end
 
 [.code-highlight: 2]
 
-#### Commit 1:
+#### Commit 1
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product importer service
+Allow users to upload csv of products
+Introduce product importer service
 ```
 
 ---
@@ -1015,14 +1046,14 @@ end
 
 ---
 
-[.code-highlight: 1]
+[.code-highlight: 3]
 
-#### Commit 2:
+#### Commit 2
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product importer service
-2 Introduce data pipeline
+Allow users to upload csv of products
+Introduce product importer service
+Introduce data pipeline
 ```
 
 ---
@@ -1113,13 +1144,13 @@ end
 
 [.code-highlight: 4]
 
-#### Commit 3:
+#### Commit 3
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product importer service
-2 Introduce data pipeline
-3 Allow for users to upload either xlsx or csv
+Allow users to upload csv of products
+Introduce product importer service
+Introduce data pipeline
+Allow for users to upload either xlsx or csv
 ```
 
 ---
@@ -1191,14 +1222,14 @@ end
 
 [.code-highlight: 5]
 
-#### Commit 4:
+#### Commit 4
 
 ```
-0 Allow users to upload csv of products
-1 Introduce product importer service
-2 Introduce data pipeline
-3 Allow for users to upload either xlsx or csv
-4 Format currency data from csv
+Allow users to upload csv of products
+Introduce product importer service
+Introduce data pipeline
+Allow for users to upload either xlsx or csv
+Format currency data from csv
 ```
 
 ---
@@ -1243,9 +1274,8 @@ end
 
 - Initial Requirement: Clients Import CSV
 - *and then* New Requirement: .xlsx + .csv
-- *and then* New Requirement: New Client, New Format
-- *and then* a New Requirement
-- and so on...
+- *and then* New Requirement: New currency format
+- *and then* a New Requirement...
 
 ---
 
@@ -1332,6 +1362,8 @@ of choosing the right paradigm for the task
 
 ### 2. Less Code
 
+[Graph Goes Here]
+
 Total Diff
 OO: 25 files, 424 (+), 49 (-)
 FP: 10 files, 132 (+), 37 (-)
@@ -1344,6 +1376,8 @@ FP: 13 files, 152 (+), 57 (-)
 
 ### 3. Easier to Test / Maintain
 
+[Graph Goes Here]
+
 Number of Public APIs added:
 OO: 8
 FP: 1
@@ -1351,6 +1385,8 @@ FP: 1
 ---
 
 ### 4. Higher Development Velocity
+
+[Graph Goes Here]
 
 Dev Time
 OO: about a work day
@@ -1398,8 +1434,8 @@ Using OO for a task that lends itself to FP
 
 <br/>
 
-### It's Useful
-to consider the what about the task you expect to change
+### It's useful
+to consider how requirements might change
 
 ---
 
@@ -1421,7 +1457,7 @@ you far
 
 <br/>
 
-### Be Conscientious
+### Be conscientious
 of business goals before starting work.
 
 ^ It's only helpful to pick one paradigm over the other when we know something is
@@ -1442,23 +1478,23 @@ Data or Behaviour?
 
 ## Thesis
 
-- Given Ruby is a general purpose language.
-- And different paradigms lend themselves to different tasks
-- We should choose our style based off of our task
+*Ruby* is a *multi-paradigm* language.
+<br/>
+*Different paradigms* lend themselves to *different tasks*
+<br/>
+We should *choose our style* based off of our *task*
 
 ---
 
-### FP learning resources
+### FP Learning Resources
 
-- Destroy All Software
+- Destroy All Software - Functional Core, Imperative Shell
 - thoughtbot.com/blog 
-- https://jasoncharnes.com/functional-programming-ruby/
-- Full Stack Fest 2015: Blending Functional and OO Programming in Ruby, by Piotr
-  Solnica: https://www.youtube.com/watch?v=rMxurF4oqsc
+- Piotr Solnica - Blending Functional and OO Programming in Ruby
 
 ---
 
-### Repo:
+### Repo
 johnschoeman/sprinkles-of-functional-programming-app
 
 ---
