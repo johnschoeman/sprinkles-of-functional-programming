@@ -12,25 +12,26 @@ I work at
 ---
 
 <br/>
+Github: /johnschoeman
 <br/>
+Mastadon: johnschoeman@technology.social
 <br/>
-
-- Github: /johnschoeman
-- Mastadon: johnschoeman@technology.social
-- Twitter: @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
+Twitter: @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
+<br/>
 
 ^ Dont ramble on the joke
+^ Goal for this talk is...
 
 ---
 
 ### Roadmap
 
-- Thesis
-- FP and OO
-- A Recommendation
-- A Story with Some Code
-- Recap / Action Items
-- Questions
+Thesis
+FP and OO
+A Recommendation
+A Story with Some Code
+Recap / Action Item
+Questions
 
 ^ not here to teach functional programming specifically.
 
@@ -73,10 +74,6 @@ yield_self / then
 ### Different paradigms
 lend themselves to different tasks
 
-^ some times we want to model some real world interactions, create things that
-represent a useful thing. Sometimes we want take some information from point a to point b, sometimes we
-want to ask some quantitative question of some data.
-
 ---
 
 <br/>
@@ -96,16 +93,8 @@ our programming style based off the task at hand
 
 ^ Doing so will lead to a better product.
 
-^  Some automation tasks lend themselves to an object oriented solution, some to a
-   functional solution.
-  - Sometimes it makes sense to program ruby in an object oriented way
-  - other times it makes sense to program ruby in a functional way.
-  - It depends on the task.
-  - (you may now leave)
-
 ---
 
-<br/>
 <br/>
 
 If you are modeling *behavior*,
@@ -156,6 +145,8 @@ is perhaps a better distinction.
 - Behaviour modeling
 - State modeling
 
+^ Users and Posts, Authorization Systems, Notification Systems
+
 ---
 
 ### FP Typical Cases
@@ -164,9 +155,13 @@ is perhaps a better distinction.
 - Data aggregates
 - Data streaming
 
+^ Importing data, Report Generation, Templating
+
 ---
 
 ## A Recommendation
+
+^ As a consultant...
 
 ---
 
@@ -184,12 +179,6 @@ and data is easy to add in FP
 how you expect requirements
 will change before beginning a task.
 
-^
-  A good way to decide which task goes to which is by asking what is more
-  likely to change in the future of your program, the behavior, or the data?
-  thus given a task you're solving with programming, if you expect behavior to
-  change, prefer object oriented. If you expect data to change, prefer functional programming
-
 ---
 
 <br/>
@@ -205,19 +194,14 @@ and what users might want
 ## A Story
 with some code
 
+^ Squint test only (Code is on github)
+^ Choose your own adventure
+
 ---
 
 ### Imagine a Rails App
 
-^ explain the app: a generic rails product monolith, there are users, which have
-things, and can do things, say a b to b of medium to largish size.
-
-^ explain the problem: users would like to migrate to the app, they need to upload
-their spreadsheets to the app, we need to ingest those spreadsheets, save the
-rows for the users as active record objects. They'd like to upload the
-spreadsheets to an ftp server and we'll poll it every day to import the files.
-
-^ Lets call this product...
+^ rails monolith
 
 ---
 
@@ -1380,10 +1364,9 @@ of choosing the right paradigm for the task
 
 ---
 
-#### Public APIs added:
+#### Public APIs
 
-OO: 8
-FP: 1
+![original, 80%](./images/hours_diff.png)
 
 ---
 
@@ -1405,7 +1388,10 @@ Using OO for a task that lends itself to FP
 
 ---
 
-### 1. Lots of 'Something-er' Classes
+[.code-highlight: all]
+[.code-highlight: 3-5, 7-11]
+
+### Lots of 'Something-er' Classes
 
 ```
 - app
@@ -1423,11 +1409,10 @@ Using OO for a task that lends itself to FP
 
 ---
 
-### 2. UML is a Linked List
+### UML is a Linked List
 
-<br />
 
-![original, 100%](./images/03.png)
+![100%, right](./images/03.png)
 
 ---
 
@@ -1491,8 +1476,8 @@ We should *choose our style* based off of our *task*
 
 ### FP Learning Resources
 
-- Destroy All Software - Functional Core, Imperative Shell
-- thoughtbot.com/blog 
+- Gary Burnheart - Functional Core, Imperative Shell
+- thoughtbot.com/blog
 - Piotr Solnica - Blending Functional and OO Programming in Ruby
 
 ---
