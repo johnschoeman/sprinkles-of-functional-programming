@@ -117,3 +117,7 @@ in the same code base. In fact you should.
 
 ---
 
+
+---
+
+linked-list contrast with the object graph

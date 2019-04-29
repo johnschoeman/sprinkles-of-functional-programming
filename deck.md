@@ -1068,11 +1068,9 @@ class ProductDataImporter
   private
 
   def read_file(filepath)
-    results = []
-    CSV.foreach(filepath, headers: true) do |row|
-      results << row.to_h.symbolize_keys
+    CSV.foreach(filepath, headers: true).map do |row|
+      row.to_h.symbolize_keys
     end
-    results
   end
 
   def process_data(data)
@@ -1081,15 +1079,15 @@ class ProductDataImporter
   end
 
   def process_date(data)
-    release_date = data[:release_date]
-    data[:release_date] = Time.zone.parse(release_date)
-    data
+    new_data = data.dup
+    new_data[:release_date] = Time.zone.parse(data[:release_date])
+    new_data
   end
 
   def process_title(data)
-    title = data[:title]
-    data[:title] = title.titleize
-    data
+    new_data = data.dup
+    new_data[:title] = title.titleize
+    new_data
   end
 end
 ```
@@ -1191,13 +1189,10 @@ class ProductDataImporter
   end
 
   def read_xlsx(filepath)
-    results = []
-    foreach_xlsx(filepath) do |row|
+    foreach_xlsx(filepath).map do |row|
       cells = row.cells.map(&:value)
       data = HEADERS.zip(cells).to_h.symbolize_keys
-      results << data
     end
-    results
   end
 
   ...
@@ -1252,9 +1247,9 @@ class ProductDataImporter
   ...
 
   def process_currency(data)
-    value = data[:value].to_s
-    data[:value] = value.gsub(/^\$/, "").to_i
-    data
+    new_data = data.dup
+    new_data[:value] = value.gsub(/^\$/, "").to_i
+    new_data
   end
 end
 ```
@@ -1273,7 +1268,7 @@ end
 ## Benefits
 of choosing the right paradigm for the task
 
-1. Easier to Understand
+1. More Isolation
 2. Less Code
 3. Easier to Test and Maintain
 4. Higher Development Velocity
