@@ -12,11 +12,11 @@ I work at
 ---
 
 <br/>
-Github: /johnschoeman
+*Github* /johnschoeman
 <br/>
-Mastadon: johnschoeman@technology.social
+*Mastadon* johnschoeman@technology.social
 <br/>
-Twitter: @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
+*Twitter* @john\_at\_aol\_dot\_com\_at\_gmail\_dot\_com
 <br/>
 
 ^ Dont ramble on the joke
@@ -46,9 +46,6 @@ Questions
 ### Ruby
 is a general purpose language
 
-^ it is excellent with both object oriented programming and functional
-programming. the developer gets to choose
-
 ---
 
 <br/>
@@ -66,6 +63,8 @@ define_method(:foo)
 data.map
 yield_self / then
 ```
+
+^ the developer gets to choose
 
 ---
 
@@ -177,7 +176,7 @@ and data is easy to add in FP
 
 ### Ask
 how you expect requirements
-will change before beginning a task.
+will change before beginning a task
 
 ---
 
@@ -186,6 +185,13 @@ will change before beginning a task.
 ### Base
 this question off the context of your business
 and what users might want
+
+---
+
+<br/>
+
+### Choose 
+your style based off of answer to this question
 
 ---
 
@@ -284,11 +290,13 @@ end
 ---
 
 [.code-highlight: all]
-[.code-highlight: 3-9]
+[.code-highlight: 5-13]
 
 ```ruby
 class Product < ApplicationRecord
   validates :name, presence: true
+
+  ...
 
   def self.import(file_path)
     CSV.foreach(file_path, headers: true) do |row|
@@ -351,10 +359,7 @@ Introduce product data importer
 ---
 
 [.code-highlight: all]
-[.code-highlight: 3]
 [.code-highlight: 4]
-[.code-highlight: 6]
-[.code-highlight: 8]
 
 ```ruby
 RSpec.describe ProductDataImporter
@@ -373,7 +378,7 @@ end
 
 [.code-highlight: all]
 [.code-highlight: 4-6]
-[.code-highlight: 18-13]
+[.code-highlight: 8-15]
 
 ```ruby
 class ProductDataImporter
@@ -426,8 +431,6 @@ Introduce product data formatter
 
 [.code-highlight: all]
 [.code-highlight: 2]
-[.code-highlight: 5]
-[.code-highlight: 6]
 [.code-highlight: 8]
 
 ```ruby
@@ -478,6 +481,7 @@ Allow .xlsx format for importer
 
 [.code-highlight: all]
 [.code-highlight: 3]
+[.code-highlight: 5]
 
 ```ruby
 Rspec.describe ProductDataImporter
@@ -691,7 +695,7 @@ end
 
 [.code-highlight: all]
 [.code-highlight: 4-8]
-[.code-highlight: 10-12]
+[.code-highlight: 9-11]
 
 ```ruby
 class FileImporter
@@ -780,7 +784,8 @@ end
 
 [.code-highlight: all]
 [.code-highlight: 4]
-[.code-highlight: 5]
+[.code-highlight: 9]
+[.code-highlight: 11]
 
 ```ruby
 RSpec.describe CsvBuilder do
@@ -845,7 +850,7 @@ end
 ---
 
 [.code-highlight: all]
-[.code-highlight: 4-7]
+[.code-highlight: 4-8]
 
 ```ruby
 class XlsxBuilder < ProductDataBuilder
@@ -904,9 +909,9 @@ RSpec.describe ProductDataFormatter do
 ---
 
 [.code-highlight: all]
-[.code-highlight: 2-6]
-[.code-highlight: 4]
-[.code-highlight: 10-12]
+[.code-highlight: 2-7]
+[.code-highlight: 5]
+[.code-highlight: 11-13]
 
 ```ruby
 class ProductDataFormatter
@@ -927,7 +932,7 @@ end
 
 ---
 
-### New Requirement...
+### And a New Requirement...
 
 ---
 
@@ -968,7 +973,8 @@ end
 
 ---
 
-### New Requirement (xlsx + csv)
+### New Requirement
+xlsx + csv
 
 ---
 
@@ -1020,7 +1026,7 @@ class ProductDataImporter
   def import(filepath)
     CSV.foreach(filepath, headers: true) do |row|
       data = row.to_h.symbolize_keys
-      data[:active] = data[:active] == "true"
+      data[:title] = data[:title].titleize
       data[:release_date] = Time.parse(data[:release_date]
       Product.create(data)
     end
@@ -1074,15 +1080,15 @@ class ProductDataImporter
       then { |data| process_title(data) }
   end
 
-  def process_title(data)
-    title = data[:title]
-    data[:title] = title.titleize
-    data
-  end
-
   def process_date(data)
     release_date = data[:release_date]
     data[:release_date] = Time.zone.parse(release_date)
+    data
+  end
+
+  def process_title(data)
+    title = data[:title]
+    data[:title] = title.titleize
     data
   end
 end
@@ -1200,7 +1206,8 @@ end
 
 ---
 
-### New Requirement (New client, new formats)
+### New Requirement
+New currency format $
 
 ---
 
@@ -1360,23 +1367,21 @@ of choosing the right paradigm for the task
 
 ---
 
-### 3. Easier to Test / Maintain
+### Easier to Test / Maintain
+
+*Style* | *Public APIs added*
+:---|:---
+*OO* | 8
+*FP* | 1
 
 ---
 
-#### Public APIs
+### Higher Development Velocity
 
-![original, 80%](./images/hours_diff.png)
-
----
-
-### 4. Higher Development Velocity
-
----
-
-#### Dev Time
-
-![original, 80%](./images/hours_diff.png)
+*Style* | *Dev Time*
+:---|:---
+*OO* | ~ A day
+*FP* | ~ An hour
 
 ---
 
@@ -1425,6 +1430,9 @@ Using OO for a task that lends itself to FP
 ### It's useful
 to consider how requirements might change
 
+^ picking the right paradigm leads to significant savings in complexity, time,
+and ultimately money
+
 ---
 
 <br/>
@@ -1432,11 +1440,7 @@ to consider how requirements might change
 ### Sprinkles,
 just a little goes a long way
 
-^ The majority of what we want to do in our Rails apps is concerned with
-behavior, so we would expect that most of our applicaiton code will be classes
-and object, thats our models, sevice objects, controllers, but sometimes we have
-other task that needs to be done which would lend themselves to a funcitonal
-style, but it would be a mistake to try to do everything in a functional style.
+^ Most of our app will still be object oriented
 
 ^ you don't have to get super in to functional programming a few basics will get
 you far
@@ -1456,11 +1460,12 @@ the bigger picture, you're at risk of choosing poorly.
 
 ### Action Item
 
+Before beginning a task,
 Ask how you expect requirements will change:
 Data or Behaviour?
-
--  if Data, consider a functional style
--  if Behavior, consider a object oriented style
+<br/>
+If Data, consider a functional style
+If Behavior, consider a object oriented style
 
 ---
 
@@ -1476,14 +1481,17 @@ We should *choose our style* based off of our *task*
 
 ### FP Learning Resources
 
-- Gary Burnheart - Functional Core, Imperative Shell
-- thoughtbot.com/blog
-- Piotr Solnica - Blending Functional and OO Programming in Ruby
+Gary Burnheart - Functional Core, Imperative Shell
+<br/>
+thoughtbot.com/blog
+<br/>
+Piotr Solnica - Blending Functional and OO Programming in Ruby
 
 ---
 
 ### Repo
-johnschoeman/sprinkles-of-functional-programming-app
+
+*johnschoeman/sprinkles-of-functional-programming-app*
 
 ---
 
