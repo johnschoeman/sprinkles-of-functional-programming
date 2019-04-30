@@ -1166,6 +1166,7 @@ RSpec.describe ProductDataImporter do
 ---
 
 [.code-highlight: all]
+[.code-highlight: 5]
 
 ```ruby
 class ProductDataImporter
@@ -1268,7 +1269,7 @@ end
 ## Benefits
 of choosing the right paradigm for the task
 
-1. More Isolation
+1. Clearer Code
 2. Less Code
 3. Easier to Test and Maintain
 4. Higher Development Velocity
@@ -1277,12 +1278,11 @@ of choosing the right paradigm for the task
 
 ---
 
-### 1. Easier to Understand
+### 1. Clearer Code
 
 ---
 
 [.code-highlight: all]
-[.code-highlight: 3-5, 7-11]
 
 ```
 - app
@@ -1301,7 +1301,6 @@ of choosing the right paradigm for the task
 ---
 
 [.code-highlight: all]
-[.code-highlight: 3-5, 7-11]
 
 ```
 - spec
@@ -1320,7 +1319,6 @@ of choosing the right paradigm for the task
 ---
 
 [.code-highlight: all]
-[.code-highlight: 5]
 
 ```
 - app
@@ -1333,7 +1331,6 @@ of choosing the right paradigm for the task
 ---
 
 [.code-highlight: all]
-[.code-highlight: 3, 4, 6]
 
 ```
 - spec
@@ -1414,6 +1411,7 @@ Using OO for a task that lends itself to FP
 
 ![100%, right](./images/03.png)
 
+
 ---
 
 ## Take Aways
@@ -1476,7 +1474,7 @@ We should *choose our style* based off of our *task*
 
 ### FP Learning Resources
 
-Gary Burnheart - Functional Core, Imperative Shell
+Gary Bernhardt - Functional Core, Imperative Shell
 <br/>
 thoughtbot.com/blog
 <br/>
